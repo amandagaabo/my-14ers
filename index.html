@@ -19,24 +19,24 @@
           <a href="#">My 14ers</a>
         </div>
         <div class="header-btn">
-          <button type="button" id="add-peak-btn">Add Peak</button>
+          <button type="button" class="content" id="add-peak-btn">Add Peak</button>
         </div>
       </div>
     </header>
 
     <main role="main">
-      <section role="region" class="row" id="new-user-home">
+      <section role="region" class="row content" id="welcome-page">
         <h1 class="page-heading">Welcome!</h1>
         <div class="col-12">
           <div class="home-box">
-            <img src="https://image.ibb.co/ch7Q15/mountain_photo.jpg" alt="home photo" class="mountain-photo">
-            <p>Start keeping track of the Colorado 14ers you have completed now!</p>
-            <button type="button">Add Peak</button>
+            <img src="https://image.ibb.co/ch7Q15/mountain_photo.jpg" alt="home photo" class="home-photo">
+            <p>How many of the Colorado 14ers have you summited?</p>
+            <button type="button" id="start-tracking-btn">Start Tracking Now!</button>
           </div>
         </div>
       </section>
 
-      <section role="region" class="row" id="add-peak">
+      <section role="region" class="row content" id="add-peak-page">
         <h1 class="page-heading">Add a Peak</h1>
         <div class="col-12">
           <div class="form-box">
@@ -54,29 +54,40 @@
                 <label for="date-climbed">Date completed</label>
                 <input type="date" id="date-climbed" required>
               </fieldset>
-              <button type="submit">Add</button>
+              <button type="submit" id="submit-form">Add</button>
             </form>
           </div>
         </div>
       </section>
 
-      <nav role="navigation" class="row">
+      <nav role="navigation" class="row content" id="navigation">
         <div class="col-12">
           <div class="list-map-nav">
-            <button type="button" class="list-btn selected">List</button><!--
-         --><button type="button" class="map-btn">Map</button>
+            <button type="button" class="list-btn selected" id="list-btn">List</button><!--
+         --><button type="button" class="map-btn" id="map-btn">Map</button>
           </div>
         </div>
       </nav>
 
-      <section role="region" class="row" id="photo-list">
+      <section role="region" class="row content" id="peak-list">
         <h1 class="page-heading">Completed Peaks List</h1>
+        <div class="col-12">
+          <div class="list-sort" id="list-sort">
+            <label for="sort-by">Sort by:</label>
+            <select id="sort-by">
+              <option value="date-climbed">Date climbed</option>
+              <option value="peak-name">Peak name</option>
+              <option value="peak-rank">Peak rank</option>
+            </select>
+          </div>
+        </div>
         <div class="col-6">
           <div class="mountain-box">
             <img src="https://image.ibb.co/ch7Q15/mountain_photo.jpg" alt="photo" class="mountain-photo">
             <div class="caption">
               <h2 class="caption-header">Peak Name 1 - 14,123</h2>
               <p class="caption-details">Peak Stats</p>
+              <button class="button remove-peak">x</button>
             </div>
           </div>
         </div>
@@ -87,22 +98,13 @@
             <div class="caption">
               <h2 class="caption-header">Peak Name 2 - 14,123</h2>
               <p class="caption-details">Peak Stats</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-6">
-          <div class="mountain-box">
-            <img src="https://image.ibb.co/ch7Q15/mountain_photo.jpg" alt="photo2" class="mountain-photo">
-            <div class="caption">
-              <h2 class="caption-header">Peak Name 3 - 14,123</h2>
-              <p class="caption-details">Peak Stats</p>
+              <button class="button remove-peak">x</button>
             </div>
           </div>
         </div>
       </section>
 
-      <section role="region" class="row" id="new-user-home">
+      <section role="region" class="row content" id="peak-map">
         <h1 class="page-heading">Completed Peaks Map</h1>
         <div class="col-12">
           <div class="map-box">

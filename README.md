@@ -58,7 +58,7 @@ My 14ers is an app that will allow users to log which 14ers in Colorado they hav
     ]
   }
 ```
-  * const userPeaks = new peakLog(); will be used to define an object for a new users list of climbed peaks
+  * const userPeakLog = new peakLog(); will be used to define an object for a new users list of climbed peaks
   * Prototype functions will be added to this function
     * Add peak, remove peak, sort, filter, display peak list, display map
 
@@ -68,15 +68,19 @@ My 14ers is an app that will allow users to log which 14ers in Colorado they hav
  
 ## Functions  - Display
 * Start app - if user has data in local storage render peak list, if the user does not then render new user home screen
-* Render new user home screen - nice 14er photo, welcome message and button to add a peak
-* Handle add peak click - take user to the add peak form
-* Render add peak form - header for form,  use <datalist> autocomplete dropdown to select peak, date picker for selecting the date climbed
+* Hide content - hides all sections by applying hidden class, then remove hidden class for current section
+* Render welcome page - nice 14er photo, welcome message and button to start tracking
+* Handle start tracking button click - take user to the add peak form
+* Render add peak page - header for form,  use <datalist> autocomplete dropdown to select peak, date picker for selecting the date climbed
   * datalist example: http://blog.teamtreehouse.com/creating-autocomplete-dropdowns-datalist-element
+*Populate datalist - use 14er API to get peak names and add to datalist as options
 * Handle form submit - check input and show error message if needed, show success alert and render peak list page
-* Render peak list page - tab navigation for list and map with focus on list, add peak button at top, photo and text about each peak the user has climbed
-* Handle map tab click - render map page
+* Render peak list page - tab navigation for list and map with focus on list, add peak button at top, show section where photo list will go
+* Populate peak list - for each peak in the user peak log, show photo and text
+* Handle add peak button click - button in nav used to add peaks, render add peak form page
+* Handle map nav button click - render map page
 * Render map page - tab navigation for list and map changes focus to map, add peak button at top,  render map
-* Render map - Google map API, load full CO map view, add peaks to map - go to list and add peaks to map (use lat and long?)
+ to map - go to list and add peaks to map (use lat and long?)
 * Handle map pin click - show peak name and info, photo too if possible
 * Handle list tab click - render peak list page
 *	Handle remove peak click - render peak list page without the removed peak
@@ -87,12 +91,17 @@ My 14ers is an app that will allow users to log which 14ers in Colorado they hav
 
 ## Functions - Data Manipulation
 *	Add peak - adds peak to the users peak log
+* Get peak data - gets data from 14er API
+* Get peak photo - gets photo from flickr using lat and long from 14er get peak data request
 *	Remove peak - removes peak from the users peak log
 *	Sort by rank - sort list by rank
-*	Sort by date climbed - sort list by date climbed
+*	Sort by date completed - sort list by date climbed
 *	Sort by peak name - sort list alphabetically by peak name
+* Render map - Google map API, load full CO map view, add peaks
  
 ## Additional features if there is time
 *	User login
+* Handle climbing a peak more than once (add flag and both dates?)
 *	Edit peaks in list
 *	Show unclimbed peaks in list and/or on map
+* User upload photo option, verify location if EXIF data exists

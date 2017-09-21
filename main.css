@@ -1,9 +1,10 @@
 body {
   font-family: 'Muli', sans-serif;
+  text-align: center;
 }
 
 .row {
-  border: 1px solid black;
+  /*border: 1px solid black;*/
   margin-bottom: 20px;
 }
 
@@ -27,8 +28,8 @@ a {
   margin-top: 8px;
 }
 
-.page-heading {
-  margin-left: 10px;
+.home-photo {
+  width: 75%;
 }
 
 /* override form fieldset and legend defaults */
@@ -79,12 +80,32 @@ input[type=text], input[type=date] {
   margin-bottom: 20px;
 }
 
+.list-sort {
+  float: right;
+  margin-bottom: 10px;
+}
+
+.mountain-box {
+  clear: right;
+}
+
 .mountain-photo {
   width: 100%;
 }
 
 .caption-header, .caption-details {
-  margin: 0 auto 10px auto;
+  margin-bottom: 10px;
+}
+
+.mountain-box {
+  position: relative;
+}
+
+.remove-peak {
+  background-color: transparent;
+  position: absolute;
+  right: 3px;
+  top: 3px;
 }
 
 .google-map {
