@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My 14ers</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli">
+    <link rel="stylesheet" href="float-grid.css">
+    <link rel="stylesheet" href="main.css">
+  </head>
+
+  <body>
+    <header role="banner">
+      <div class="row header">
+        <div class="logo">
+          <a href="#">My 14ers</a>
+        </div>
+        <div class="header-btn">
+          <button type="button" id="add-peak-btn">Add Peak</button>
+        </div>
+      </div>
+    </header>
+
+    <main role="main">
+      <section role="region" class="row" id="new-user-home">
+        <h1 class="page-heading">Welcome!</h1>
+        <div class="col-12">
+          <div class="home-box">
+            <img src="https://image.ibb.co/ch7Q15/mountain_photo.jpg" alt="home photo" class="mountain-photo">
+            <p>Start keeping track of the Colorado 14ers you have completed now!</p>
+            <button type="button">Add Peak</button>
+          </div>
+        </div>
+      </section>
+
+      <section role="region" class="row" id="add-peak">
+        <h1 class="page-heading">Add a Peak</h1>
+        <div class="col-12">
+          <div class="form-box">
+            <form role="form" id="add-peak-form">
+              <fieldset name="add-peak">
+                <legend>Add Peak</legend>
+                <label for="peak-climbed">Peak climbed</label>
+                <input type="text" id="peak-climbed" list="peak-list" placeholder="eg. Mt. Princeton" required>
+                <datalist id="peak-list">
+                  <option value="Mt. Princeton">
+                  <option value="Longs Peak">
+                  <!--data list will be populated with 14ers api, sample options above for quick layout-->
+                </datalist>
+
+                <label for="date-climbed">Date completed</label>
+                <input type="date" id="date-climbed" required>
+              </fieldset>
+              <button type="submit">Add</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <nav role="navigation" class="row">
+        <div class="col-12">
+          <div class="list-map-nav">
+            <button type="button" class="list-btn selected">List</button><!--
+         --><button type="button" class="map-btn">Map</button>
+          </div>
+        </div>
+      </nav>
+
+      <section role="region" class="row" id="photo-list">
+        <h1 class="page-heading">Completed Peaks List</h1>
+        <div class="col-6">
+          <div class="mountain-box">
+            <img src="https://image.ibb.co/ch7Q15/mountain_photo.jpg" alt="photo" class="mountain-photo">
+            <div class="caption">
+              <h2 class="caption-header">Peak Name 1 - 14,123</h2>
+              <p class="caption-details">Peak Stats</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="mountain-box">
+            <img src="https://image.ibb.co/ch7Q15/mountain_photo.jpg" alt="photo2" class="mountain-photo">
+            <div class="caption">
+              <h2 class="caption-header">Peak Name 2 - 14,123</h2>
+              <p class="caption-details">Peak Stats</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="mountain-box">
+            <img src="https://image.ibb.co/ch7Q15/mountain_photo.jpg" alt="photo2" class="mountain-photo">
+            <div class="caption">
+              <h2 class="caption-header">Peak Name 3 - 14,123</h2>
+              <p class="caption-details">Peak Stats</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section role="region" class="row" id="new-user-home">
+        <h1 class="page-heading">Completed Peaks Map</h1>
+        <div class="col-12">
+          <div class="map-box">
+            <div class="google-map">
+              <p>google map goes here</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    <main>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
