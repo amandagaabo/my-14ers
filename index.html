@@ -15,7 +15,7 @@
   <body>
     <header role="banner">
       <div class="row header">
-        <div class="logo">
+        <div class="logo" id="logo">
           <a href="#">My 14ers</a>
         </div>
         <div class="header-btn">
@@ -40,11 +40,11 @@
         <h1 class="page-heading">Add a Peak</h1>
         <div class="col-12">
           <div class="form-box">
-            <form role="form" id="add-peak-form">
+            <form role="form" id="add-peak-form" action="" method="post">
               <fieldset name="add-peak">
                 <legend>Add Peak</legend>
                 <label for="peak-climbed">Peak climbed</label>
-                <input type="text" id="peak-climbed" list="peak-list" placeholder="eg. Mt. Princeton" required>
+                <input type="text" id="peak-climbed" list="peak-list" placeholder="eg. Mt. Princeton" required="required">
                 <datalist id="peak-list">
                   <option value="Mt. Princeton">
                   <option value="Longs Peak">
@@ -52,10 +52,12 @@
                 </datalist>
 
                 <label for="date-climbed">Date completed</label>
-                <input type="date" id="date-climbed" required>
+                <input type="date" id="date-climbed" required="required">
               </fieldset>
               <button type="submit" id="submit-form">Add</button>
             </form>
+
+            <p id="error-message" class="error"></p>
           </div>
         </div>
       </section>
@@ -69,7 +71,7 @@
         </div>
       </nav>
 
-      <section role="region" class="row content" id="peak-list">
+      <section role="region" class="row content" id="peak-list-page">
         <h1 class="page-heading">Completed Peaks List</h1>
         <div class="col-12">
           <div class="list-sort" id="list-sort">

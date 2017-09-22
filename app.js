@@ -1,27 +1,41 @@
-'use strict';
+'use strict'
 /**
-* Peak log is used to store completed peak data for the user.
+* Peak log is the constructor function for user peak logs
 * Functions associated with peak log data manipulation will be prototypes.
 */
-function peakLog() {
-    this.peaks = [];
+function PeakLog () {
+  this.peaks = []
 }
+
+/**
+* User peak log is used to store completed peak data for the user.
+* Functions associated with peak log data manipulation will be prototypes.
+*/
+const userPeakLog = new PeakLog()
 
 /**
 * Start the app.
 * - renderWelcomePage() function is called if local storage is empty
 * - renderPhotoList() function is called if data is in local storage
 */
-function startApp() {
-
+function startApp () {
+  if (!localStorage.getItem('userPeakLog')) {
+    console.log('no local storage, render welcome page')
+    handleLogoClick()
+    hideContent()
+    renderWelcomePage()
+  }
 }
 
 /**
 * Handle logo click.
-* - StartApp() to decide what to load
+* - logo ID: #logo
+* - startApp() to decide what to load
 */
-function handleLogoClick() {
-
+function handleLogoClick () {
+  $('#logo').on('click', function () {
+    startApp()
+  })
 }
 
 /** Hide content.
@@ -29,28 +43,33 @@ function handleLogoClick() {
 * - Sections class = content
 * - Add class = hidden
 */
-function hideContent() {
-
+function hideContent () {
+  $('.content').addClass('hidden')
 }
 
 /**
 * Render welcome page.
 * - Hide all sections - hideContent()
 * - Remove class = hidden from welcome page section - ID: #welcome-page
-* - Handle start tracking button click - button ID: #start-tracking-btn
+* - Handle start tracking button click - handleStartTrackingBtnClick()
 */
-function renderWelcomePage() {
+function renderWelcomePage () {
+  console.log('welcome page rendered')
 
+  $('#welcome-page').removeClass('hidden')
+  handleStartTrackingBtnClick()
 }
 
 /**
 * Handle start tracking button click.
 * - Button ID: #start-tracking-btn
-* - Generate empty userPeakLog const using new peakLog()
 * - Render add peak form page - renderAddPeakPage()
 */
-function handleStartTrackingBtnClick() {
-
+function handleStartTrackingBtnClick () {
+  $('#start-tracking-btn').on('click', function () {
+    console.log('start tracking button clicked')
+    renderAddPeakPage()
+  })
 }
 
 /**
@@ -58,10 +77,14 @@ function handleStartTrackingBtnClick() {
 * - Hide all sections - hideContent()
 * - Populate datalist options - populateDatalist()
 * - Show add peak section - ID: #add-peak-page
-* - Handle submit button click - ID: #submit-form
+* - Handle submit button click - handleSubmitForm()
 */
-function renderAddPeakPage() {
-
+function renderAddPeakPage () {
+  console.log('add peak page rendered')
+  hideContent()
+  populateDatalist()
+  $('#add-peak-page').removeClass('hidden')
+  handleSubmitForm()
 }
 
 /**
@@ -70,17 +93,62 @@ function renderAddPeakPage() {
 * - Sort alphabetically in an array
 * - For each peak name, add an option in the datalist - ID: #peak-list
 */
-function populateDatalist() {
+function populateDatalist () {
 
 }
 
 /**
 * Handle submit form.
+* - Form button ID: #submit-form
+* - Validate form - validateForm()
+* - Prevent default
+* - Clear form inputs
 * - Add peak to userPeakLog - addPeak()
 * - Render list page - renderPeakList()
 */
-function handleSubmitForm() {
+function handleSubmitForm () {
+  $('#submit-form').on('click', function (event) {
+    event.preventDefault()
 
+    if (validateForm()) {
+      console.log('form submitted')
+      $('#peak-climbed').val('')
+      $('#date-climbed').val('')
+      $('#error-message').html('')
+      addPeak()
+      renderPeakList()
+    }
+  })
+}
+
+/**
+* Validate form.
+* - check that all inputs are entered
+* - show error message if inputs are missing
+*/
+function validateForm () {
+  $('#error-message').html('')
+
+  let peakName = $('#peak-climbed').val()
+  let dateClimbed = $('#date-climbed').val()
+  let message = null
+
+  if (!peakName && !dateClimbed) {
+    message = 'Please enter peak name and select date climbed.'
+  }
+  else if (!peakName) {
+    message = 'Please enter peak name.'
+  }
+  else if (!dateClimbed) {
+    message = 'Please select date climbed.'
+  }
+
+  if (message) {
+    $('#error-message').html(`${message}`)
+  }
+  else {
+    return true
+  }
 }
 
 /**
@@ -88,15 +156,24 @@ function handleSubmitForm() {
 * - Hide all content sections - hideContent()
 * - Show header add peak button - ID: #add-peak-btn
 * - Show navigation section - ID: #navigation
-* - Show peak list page section - ID: #peak-list
+* - Show peak list page section - ID: #peak-list-page
 * - Populate list content - populatePeakList()
 * - Handle navigation map button click - handleNavMapBtnClick()
 * - Handle remove peak button click - handleRemovePeakBtnClick()
 * - Handle add peak button click - handleAddPeakBtnClick()
 * - Handle sort by dropdown click - handleSortByClick()
 */
-function renderPeakList() {
-
+function renderPeakList () {
+  console.log('peak list page rendered')
+  hideContent()
+  $('#add-peak-btn').removeClass('hidden')
+  $('#navigation').removeClass('hidden')
+  $('#peak-list-page').removeClass('hidden')
+  populatePeakList()
+  handleNavMapBtnClick()
+  handleRemovePeakBtnClick()
+  handleAddPeakBtnClick()
+  handleSortByClick()
 }
 
 /**
@@ -105,7 +182,7 @@ function renderPeakList() {
 * - Generate HTML for each peak in userPeakLog
 * - Add HTML to peak list section - ID: #peak-list
 */
-function populatePeakList() {
+function populatePeakList () {
 
 }
 
@@ -115,7 +192,7 @@ function populatePeakList() {
 * - Call sort function based on selection
 * - Re-generate peak list in new order - populatePeakList()
 */
-function handleSortByClick() {
+function handleSortByClick () {
 
 }
 
@@ -123,7 +200,7 @@ function handleSortByClick() {
 * Handle add peak button click.
 * - Render add peak form page - renderAddPeakPage()
 */
-function handleAddPeakBtnClick() {
+function handleAddPeakBtnClick () {
 
 }
 
@@ -131,7 +208,7 @@ function handleAddPeakBtnClick() {
 * Handle navigation map button click.
 * - Render peak map page - renderPeakMapPage()
 */
-function handleNavMapBtnClick() {
+function handleNavMapBtnClick () {
 
 }
 
@@ -146,7 +223,7 @@ function handleNavMapBtnClick() {
 * - Handle navigation list button click - handleNavListBtnClick()
 * - Handle add peak button click - handleAddPeakBtnClick()
 */
-function renderPeakMapPage() {
+function renderPeakMapPage () {
 
 }
 
@@ -154,7 +231,7 @@ function renderPeakMapPage() {
 * Handle navigation list button click.
 * - Render list page - renderPeakList()
 */
-function handleNavListBtnClick() {
+function handleNavListBtnClick () {
 
 }
 
@@ -164,7 +241,7 @@ function handleNavListBtnClick() {
 * - remove peak from user log - removePeak()
 * - update peak list - populatePeakList()
 */
-function handleRemovePeakBtnClick() {
+function handleRemovePeakBtnClick () {
 
 }
 
@@ -177,7 +254,7 @@ function handleRemovePeakBtnClick() {
 * - Add peak photo and alt to userPeakLog
 * - Update local storage
 */
-function addPeak(peakName) {
+function addPeak (peakName) {
 
 }
 
@@ -185,7 +262,7 @@ function addPeak(peakName) {
 * Get peak data.
 * - Get request to 14er API for data on peak by peakName
 */
-function getPeakData(peakName) {
+function getPeakData (peakName) {
 
 }
 
@@ -193,7 +270,7 @@ function getPeakData(peakName) {
 * Get peak photo.
 * - Get request to flikr API for photo of peak using lat and long
 */
-function getPeakPhoto(lat, long) {
+function getPeakPhoto (lat, long) {
 
 }
 
@@ -202,7 +279,7 @@ function getPeakPhoto(lat, long) {
 * - Remove peak from userPeakLog
 * - Update local storage
 */
-function removePeak(peakName) {
+function removePeak (peakName) {
 
 }
 
@@ -210,7 +287,7 @@ function removePeak(peakName) {
 * Sort by date completed prototype function.
 * - Sort userPeakLog by date completed
 */
-function sortByDateCompleted() {
+function sortByDateCompleted () {
 
 }
 
@@ -218,7 +295,7 @@ function sortByDateCompleted() {
 * Sort by peak rank prototype function.
 * - Sort userPeakLog by rank
 */
-function sortByRank() {
+function sortByRank () {
 
 }
 
@@ -226,7 +303,7 @@ function sortByRank() {
 * Soft by peak name prototype function.
 * - Sort userPeakLog by peak name
 */
-function sortByPeakName() {
+function sortByPeakName () {
 
 }
 
@@ -236,8 +313,8 @@ function sortByPeakName() {
 * - Display pins at each completed peak using lat and long from userPeakLog
 * - Enable info pop-up on click for pins
 */
-function renderMap() {
+function renderMap () {
 
 }
 
-$(startApp);
+$(startApp)

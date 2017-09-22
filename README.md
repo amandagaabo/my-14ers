@@ -75,6 +75,7 @@ My 14ers is an app that will allow users to log which 14ers in Colorado they hav
   * datalist example: http://blog.teamtreehouse.com/creating-autocomplete-dropdowns-datalist-element
 *Populate datalist - use 14er API to get peak names and add to datalist as options
 * Handle form submit - check input and show error message if needed, show success alert and render peak list page
+* Validate form - check that user entered required inputs, if not show error message
 * Render peak list page - tab navigation for list and map with focus on list, add peak button at top, show section where photo list will go
 * Populate peak list - for each peak in the user peak log, show photo and text
 * Handle add peak button click - button in nav used to add peaks, render add peak form page
