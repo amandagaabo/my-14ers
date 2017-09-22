@@ -59,8 +59,6 @@ My 14ers is an app that will allow users to log which 14ers in Colorado they hav
   }
 ```
   * const userPeakLog = new peakLog(); will be used to define an object for a new users list of climbed peaks
-  * Prototype functions will be added to this function
-    * Add peak, remove peak, sort, filter, display peak list, display map
 
 * List of all 14er names
   * An array will hold all the 14er names and will be used to populate/check the add 14er peak name input

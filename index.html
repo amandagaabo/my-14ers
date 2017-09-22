@@ -43,16 +43,13 @@
             <form role="form" id="add-peak-form" action="" method="post">
               <fieldset name="add-peak">
                 <legend>Add Peak</legend>
-                <label for="peak-climbed">Peak climbed</label>
-                <input type="text" id="peak-climbed" list="peak-list" placeholder="eg. Mt. Princeton" required="required">
-                <datalist id="peak-list">
-                  <option value="Mt. Princeton">
-                  <option value="Longs Peak">
-                  <!--data list will be populated with 14ers api, sample options above for quick layout-->
-                </datalist>
 
-                <label for="date-climbed">Date completed</label>
-                <input type="date" id="date-climbed" required="required">
+                <label for="peak-climbed">Peak climbed</label>
+                <input type="text" id="peak-climbed" list="peak-list" placeholder="eg. Mt. Princeton" name="peakClimbed"required="required">
+                <datalist id="peak-list"></datalist>
+
+                <label for="date-climbed">Date</label>
+                <input type="date" id="date-climbed" name="dateClimbed"required="required">
               </fieldset>
               <button type="submit" id="submit-form">Add</button>
             </form>
@@ -64,7 +61,7 @@
 
       <nav role="navigation" class="row content" id="navigation">
         <div class="col-12">
-          <div class="list-map-nav">
+          <div class=""s="list-map-nav">
             <button type="button" class="list-btn selected" id="list-btn">List</button><!--
          --><button type="button" class="map-btn" id="map-btn">Map</button>
           </div>
@@ -72,7 +69,6 @@
       </nav>
 
       <section role="region" class="row content" id="peak-list-page">
-        <h1 class="page-heading">Completed Peaks List</h1>
         <div class="col-12">
           <div class="list-sort" id="list-sort">
             <label for="sort-by">Sort by:</label>
@@ -83,31 +79,10 @@
             </select>
           </div>
         </div>
-        <div class="col-6">
-          <div class="mountain-box">
-            <img src="https://image.ibb.co/ch7Q15/mountain_photo.jpg" alt="photo" class="mountain-photo">
-            <div class="caption">
-              <h2 class="caption-header">Peak Name 1 - 14,123</h2>
-              <p class="caption-details">Peak Stats</p>
-              <button class="button remove-peak">x</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-6">
-          <div class="mountain-box">
-            <img src="https://image.ibb.co/ch7Q15/mountain_photo.jpg" alt="photo2" class="mountain-photo">
-            <div class="caption">
-              <h2 class="caption-header">Peak Name 2 - 14,123</h2>
-              <p class="caption-details">Peak Stats</p>
-              <button class="button remove-peak">x</button>
-            </div>
-          </div>
-        </div>
+        <div id="peak-list-section"></div>
       </section>
 
       <section role="region" class="row content" id="peak-map">
-        <h1 class="page-heading">Completed Peaks Map</h1>
         <div class="col-12">
           <div class="map-box">
             <div class="google-map">

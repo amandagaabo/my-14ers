@@ -1,6 +1,6 @@
 'use strict'
 /**
-* Peak log is the constructor function for user peak logs
+* Peak log is the constructor function for the users peak log
 * Functions associated with peak log data manipulation will be prototypes.
 */
 function PeakLog () {
@@ -33,7 +33,7 @@ function startApp () {
 * - startApp() to decide what to load
 */
 function handleLogoClick () {
-  $('#logo').on('click', function () {
+  $('#logo').click(function () {
     startApp()
   })
 }
@@ -55,7 +55,6 @@ function hideContent () {
 */
 function renderWelcomePage () {
   console.log('welcome page rendered')
-
   $('#welcome-page').removeClass('hidden')
   handleStartTrackingBtnClick()
 }
@@ -66,7 +65,7 @@ function renderWelcomePage () {
 * - Render add peak form page - renderAddPeakPage()
 */
 function handleStartTrackingBtnClick () {
-  $('#start-tracking-btn').on('click', function () {
+  $('#start-tracking-btn').click(function () {
     console.log('start tracking button clicked')
     renderAddPeakPage()
   })
@@ -74,15 +73,18 @@ function handleStartTrackingBtnClick () {
 
 /**
 * Render the add peak form page.
+* - Populate datalist options if the list is empty - populateDatalist()
 * - Hide all sections - hideContent()
-* - Populate datalist options - populateDatalist()
 * - Show add peak section - ID: #add-peak-page
 * - Handle submit button click - handleSubmitForm()
 */
 function renderAddPeakPage () {
   console.log('add peak page rendered')
+  if($('#peak-list > option').length === 0) {
+    populateDatalist()
+  }
+
   hideContent()
-  populateDatalist()
   $('#add-peak-page').removeClass('hidden')
   handleSubmitForm()
 }
@@ -94,12 +96,18 @@ function renderAddPeakPage () {
 * - For each peak name, add an option in the datalist - ID: #peak-list
 */
 function populateDatalist () {
+  const peakList = ['Mt. Princeton', 'Longs Peak', 'Mt. Elbert']
+////////NEED TO GET ALL PEAK NAMES FROM API///////////////////////
+  peakList.sort()
 
+  peakList.forEach(peak => {
+    $('#peak-list').append(`<option value='${peak}'>`)
+  })
 }
 
 /**
 * Handle submit form.
-* - Form button ID: #submit-form
+* - Form ID: #add-peak-form
 * - Validate form - validateForm()
 * - Prevent default
 * - Clear form inputs
@@ -107,15 +115,20 @@ function populateDatalist () {
 * - Render list page - renderPeakList()
 */
 function handleSubmitForm () {
-  $('#submit-form').on('click', function (event) {
+  $('#add-peak-form').submit(function (event) {
     event.preventDefault()
 
     if (validateForm()) {
       console.log('form submitted')
+      let peakName = $('#peak-climbed').val()
+      let dateString = $('#date-climbed').val()
+      let date = new Date(dateString)
+      addPeak(peakName, date)
+
       $('#peak-climbed').val('')
       $('#date-climbed').val('')
       $('#error-message').html('')
-      addPeak()
+
       renderPeakList()
     }
   })
@@ -130,17 +143,23 @@ function validateForm () {
   $('#error-message').html('')
 
   let peakName = $('#peak-climbed').val()
-  let dateClimbed = $('#date-climbed').val()
+  let dateString = $('#date-climbed').val()
+  let dateClimbed = new Date(dateString)
   let message = null
+  let today = new Date()
+  let minYear = today.getFullYear() - 100
 
   if (!peakName && !dateClimbed) {
-    message = 'Please enter peak name and select date climbed.'
+    message = 'Please select peak name and date climbed.'
   }
   else if (!peakName) {
-    message = 'Please enter peak name.'
+    message = 'Please select peak name.'
   }
   else if (!dateClimbed) {
     message = 'Please select date climbed.'
+  }
+  else if (dateClimbed > today || dateClimbed.getFullYear() < minYear) {
+    message = 'Please select valid date.'
   }
 
   if (message) {
@@ -157,7 +176,9 @@ function validateForm () {
 * - Show header add peak button - ID: #add-peak-btn
 * - Show navigation section - ID: #navigation
 * - Show peak list page section - ID: #peak-list-page
-* - Populate list content - populatePeakList()
+* - Toggle selected class from #map-btn to #list-btn
+* - Sort peaks by date climbed - sortByDateClimbed()
+* - Populate list content - populatePeakListSection()
 * - Handle navigation map button click - handleNavMapBtnClick()
 * - Handle remove peak button click - handleRemovePeakBtnClick()
 * - Handle add peak button click - handleAddPeakBtnClick()
@@ -166,10 +187,11 @@ function validateForm () {
 function renderPeakList () {
   console.log('peak list page rendered')
   hideContent()
-  $('#add-peak-btn').removeClass('hidden')
-  $('#navigation').removeClass('hidden')
-  $('#peak-list-page').removeClass('hidden')
-  populatePeakList()
+  $('#add-peak-btn, #navigation, #peak-list-page').removeClass('hidden')
+  $('#list-btn').addClass('selected')
+  $('#map-btn').removeClass('selected')
+  sortByDateClimbed()
+  populatePeakListSection()
   handleNavMapBtnClick()
   handleRemovePeakBtnClick()
   handleAddPeakBtnClick()
@@ -177,39 +199,76 @@ function renderPeakList () {
 }
 
 /**
-* Populate peak list.
-* - Clear out existing peak list section - ID: #peak-list
+* Populate peak list section.
+* - Clear out existing peak list section - ID: #peak-list-section
 * - Generate HTML for each peak in userPeakLog
-* - Add HTML to peak list section - ID: #peak-list
+* - Add HTML to peak list section - ID: #peak-list-section
 */
-function populatePeakList () {
+function populatePeakListSection () {
+  $('#peak-list-section').html('')
 
+  userPeakLog.peaks.forEach(peak => {
+    $('#peak-list-section').append(`
+      <div class="col-6">
+        <div class="mountain-box">
+          <img src="${peak.imgSrc}" alt="${peak.imgAlt}" class="mountain-photo">
+          <div class="caption">
+            <h2 class="caption-header" data-peak="${peak.name}">${peak.name} - ${peak.elevation}</h2>
+            <p class="caption-details">Rank: ${peak.rank}</p>
+            <p class="caption-details">Date climbed: ${peak.dateClimbed}</p>
+            <button class="button remove-peak">x</button>
+          </div>
+        </div>
+      </div>
+      `)
+  })
 }
 
 /**
-* Handle sort by click.
+* Handle sort by click
+* - Sort dropdown ID: #sort-by
 * - Find out which option the user selected
 * - Call sort function based on selection
-* - Re-generate peak list in new order - populatePeakList()
+* - Re-generate peak list in new order - populatePeakListSection()
 */
 function handleSortByClick () {
+  $('#sort-by').change(function () {
+    let userSort = $('#sort-by option:selected').val()
+    if (userSort === 'date-climbed') {
+      sortByDateClimbed()
+    }
+    if (userSort === 'peak-name') {
+      sortByPeakName()
+    }
+    if (userSort === 'peak-rank') {
+      sortByRank()
+    }
 
+    populatePeakListSection()
+  })
 }
 
 /**
 * Handle add peak button click.
+* - Add peak button ID: #add-peak-btn
 * - Render add peak form page - renderAddPeakPage()
 */
 function handleAddPeakBtnClick () {
-
+  $('#add-peak-btn').click(function () {
+    renderAddPeakPage()
+  })
 }
 
 /**
 * Handle navigation map button click.
+* - Map nav button ID: #map-btn
 * - Render peak map page - renderPeakMapPage()
 */
 function handleNavMapBtnClick () {
-
+  $('#map-btn').click(function () {
+    console.log('map nav button clicked')
+    renderPeakMapPage()
+  })
 }
 
 /**
@@ -217,45 +276,71 @@ function handleNavMapBtnClick () {
 * - Hide all content sections - hideContent()
 * - Show header add peak button - ID: #add-peak-btn
 * - Show navigation - ID: #navigation
-* - Toggle selected class from #list-btn to #map-btn
 * - Show peak map section - ID: #peak-map
+* - Toggle selected class from #list-btn to #map-btn
 * - Render map with pins at peaks - renderMap()
 * - Handle navigation list button click - handleNavListBtnClick()
 * - Handle add peak button click - handleAddPeakBtnClick()
 */
 function renderPeakMapPage () {
-
+  console.log('peak map page rendered')
+  hideContent()
+  $('#add-peak-btn, #navigation, #peak-map').removeClass('hidden')
+  $('#list-btn').removeClass('selected')
+  $('#map-btn').addClass('selected')
+  renderMap()
+  handleNavListBtnClick()
+  handleAddPeakBtnClick()
 }
 
 /**
 * Handle navigation list button click.
+* - List button ID: #list-btn
 * - Render list page - renderPeakList()
 */
 function handleNavListBtnClick () {
-
+  $('#list-btn').click(function () {
+    console.log('list nav button clicked')
+    renderPeakList()
+  })
 }
 
 /**
 * Handle remove peak button click.
-* - find out neam of peak being removed - class: .caption-header
+* - Use parent div to find button that was added after page load - ID: #peak-list-page
+* - Button class = .remove-peak
+* - find out neam of peak being removed - class: .caption-header data-peak attribute
 * - remove peak from user log - removePeak()
-* - update peak list - populatePeakList()
+* - update peak list - populatePeakListSection()
 */
 function handleRemovePeakBtnClick () {
-
+  $('#peak-list-page').on('click', '.remove-peak', function () {
+    let peakName = $(this).siblings('.caption-header').data('peak')
+    console.log('remove peak x clicked.', peakName, 'will be removed')
+    removePeak(peakName)
+    populatePeakListSection()
+  })
 }
 
 /**
-* Add peak prototype function.
+* Add peak.
 * - Get peak data from 14er API using peak name user selected - datalist ID: #peak-list
-* - Add peak data to userPeakLog
-* - Get peak photo from flickr API using lat and long from userPeakLog
-* - Assign peak photo alt using peak name
-* - Add peak photo and alt to userPeakLog
+* - Get peak photo from flickr API using lat and long from peak data
+* - Add peak photo and alt to peak data
+* - Push peak data to user peak log
 * - Update local storage
 */
-function addPeak (peakName) {
 
+function addPeak (peakName, date) {
+  let peakData = getPeakData(peakName)
+  let lat = peakData.lat
+  let long = peakData.long
+  let peakPhotoInfo = getPeakPhoto(lat, long)
+  peakData.imgSrc = peakPhotoInfo.imgSrc
+  peakData.imgAlt = peakPhotoInfo.imgAlt
+  peakData.dateClimbed = date
+  userPeakLog.peaks.push(peakData)
+  console.log(userPeakLog)
 }
 
 /**
@@ -263,7 +348,25 @@ function addPeak (peakName) {
 * - Get request to 14er API for data on peak by peakName
 */
 function getPeakData (peakName) {
+  // let peakData = {}
+  // Data needed from API
+  // peakData.name
+  // peakData.elevation
+  // peakData.rank
+  // peakData.range
+  // peakData.lat
+  // peakData.long
+  // return peakData
 
+  const sampleData = {
+        name: 'Mt. Princeton',
+        elevation: 14197,
+        rank: 20,
+        range: 'Sawatch',
+        lat: 38.749,
+        long: -106.2419
+      }
+  return sampleData
 }
 
 /**
@@ -271,11 +374,16 @@ function getPeakData (peakName) {
 * - Get request to flikr API for photo of peak using lat and long
 */
 function getPeakPhoto (lat, long) {
+  const samplePhotoData = {
+    imgSrc: 'https://image.ibb.co/ch7Q15/mountain_photo.jpg',
+    imgAlt: 'Mt. Princeton image'
+  }
 
+  return samplePhotoData
 }
 
 /**
-* Remove peak prototype function.
+* Remove peak.
 * - Remove peak from userPeakLog
 * - Update local storage
 */
@@ -284,27 +392,28 @@ function removePeak (peakName) {
 }
 
 /**
-* Sort by date completed prototype function.
+* Sort by date completed.
 * - Sort userPeakLog by date completed
 */
-function sortByDateCompleted () {
-
+function sortByDateClimbed () {
+  console.log('sorted by date')
+  userPeakLog.peaks.sort((a, b) => b.dateClimbed - a.dateClimbed)
 }
 
 /**
-* Sort by peak rank prototype function.
+* Sort by peak rank.
 * - Sort userPeakLog by rank
 */
 function sortByRank () {
-
+  console.log('sorted by rank')
 }
 
 /**
-* Soft by peak name prototype function.
+* Soft by peak name.
 * - Sort userPeakLog by peak name
 */
 function sortByPeakName () {
-
+  console.log('sorted by name')
 }
 
 /**
