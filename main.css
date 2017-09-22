@@ -97,8 +97,12 @@ input[type=text], input[type=date] {
   width: 100%;
 }
 
-.caption-header, .caption-details {
+.caption-header {
   margin-bottom: 10px;
+}
+
+.caption-details {
+  margin: 0;
 }
 
 .mountain-box {

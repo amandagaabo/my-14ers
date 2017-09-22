@@ -12,7 +12,18 @@ function PeakLog () {
 * Functions associated with peak log data manipulation will be prototypes.
 */
 const userPeakLog = new PeakLog()
-
+const testData = {
+      peakname: 'Mt. Yale',
+      elevation: "14,100",
+      rank: 30,
+      range: 'Sawatch',
+      lat: 38.749,
+      long: -106.2419,
+      imgSrc: 'https://image.ibb.co/ch7Q15/mountain_photo.jpg',
+      imgAlt: 'Mt. Princeton image',
+      dateClimbed: '2016-12-25'
+    }
+userPeakLog.peaks.push(testData)
 /**
 * Start the app.
 * - renderWelcomePage() function is called if local storage is empty
@@ -121,8 +132,7 @@ function handleSubmitForm () {
     if (validateForm()) {
       console.log('form submitted')
       let peakName = $('#peak-climbed').val()
-      let dateString = $('#date-climbed').val()
-      let date = new Date(dateString)
+      let date = $('#date-climbed').val()
       addPeak(peakName, date)
 
       $('#peak-climbed').val('')
@@ -208,14 +218,19 @@ function populatePeakListSection () {
   $('#peak-list-section').html('')
 
   userPeakLog.peaks.forEach(peak => {
+    let date = new Date(peak.dateClimbed)
+    let day = date.getDate() + 1
+    let month = date.getMonth() + 1
+    let year = date.getFullYear()
+    let convertedDate = `${month}-${day}-${year}`
     $('#peak-list-section').append(`
       <div class="col-6">
         <div class="mountain-box">
           <img src="${peak.imgSrc}" alt="${peak.imgAlt}" class="mountain-photo">
           <div class="caption">
-            <h2 class="caption-header" data-peak="${peak.name}">${peak.name} - ${peak.elevation}</h2>
+            <h2 class="caption-header" data-peak="${peak.peakname}">${peak.peakname} - ${peak.elevation}</h2>
             <p class="caption-details">Rank: ${peak.rank}</p>
-            <p class="caption-details">Date climbed: ${peak.dateClimbed}</p>
+            <p class="caption-details">Date climbed: ${convertedDate}</p>
             <button class="button remove-peak">x</button>
           </div>
         </div>
@@ -234,6 +249,7 @@ function populatePeakListSection () {
 function handleSortByClick () {
   $('#sort-by').change(function () {
     let userSort = $('#sort-by option:selected').val()
+    //console.log(userSort)
     if (userSort === 'date-climbed') {
       sortByDateClimbed()
     }
@@ -350,7 +366,7 @@ function addPeak (peakName, date) {
 function getPeakData (peakName) {
   // let peakData = {}
   // Data needed from API
-  // peakData.name
+  // peakData.peakname
   // peakData.elevation
   // peakData.rank
   // peakData.range
@@ -359,8 +375,8 @@ function getPeakData (peakName) {
   // return peakData
 
   const sampleData = {
-        name: 'Mt. Princeton',
-        elevation: 14197,
+        peakname: 'Mt. Princeton',
+        elevation: "14,197",
         rank: 20,
         range: 'Sawatch',
         lat: 38.749,
@@ -396,8 +412,8 @@ function removePeak (peakName) {
 * - Sort userPeakLog by date completed
 */
 function sortByDateClimbed () {
-  console.log('sorted by date')
-  userPeakLog.peaks.sort((a, b) => b.dateClimbed - a.dateClimbed)
+  //console.log('sorted by date climbed')
+  userPeakLog.peaks.sort((a, b) => new Date(b.dateClimbed) - new Date(a.dateClimbed))
 }
 
 /**
@@ -405,7 +421,8 @@ function sortByDateClimbed () {
 * - Sort userPeakLog by rank
 */
 function sortByRank () {
-  console.log('sorted by rank')
+  // console.log('sorted by rank')
+  userPeakLog.peaks.sort((a, b) => a.rank - b.rank)
 }
 
 /**
@@ -413,7 +430,16 @@ function sortByRank () {
 * - Sort userPeakLog by peak name
 */
 function sortByPeakName () {
-  console.log('sorted by name')
+  console.log('sorted by peak name')
+  userPeakLog.peaks.sort(function (a, b) {
+    if (a.peakname < b.peakname) {
+      return -1
+    }
+    if (b.peakname < a.peakname) {
+      return 1
+    }
+    return 0
+  })
 }
 
 /**
