@@ -40,12 +40,11 @@ My 14ers is an app that will allow users to log which 14ers in Colorado they hav
  
 ## Data
 * User peak log
-  * A constructor function will be used to create the array of logged peak data for the user
+  * An array of objects store logged peak data for the user
 ```
-  Function peakLog() {
-    this.peaks = [
+  const userPeakLog = [
       {
-        name: "Mt. Princeton",
+        peakname: "Mt. Princeton",
         elevation: 14197,
         rank: 20,
         range: "Sawatch",
@@ -54,31 +53,29 @@ My 14ers is an app that will allow users to log which 14ers in Colorado they hav
         imgSrc: "https://linkforimage.com",
         imgAlt: "description of image",
         dateClimbed: mm/dd/yyyy
-      }
+      }
     ]
   }
 ```
-  * const userPeakLog = new peakLog(); will be used to define an object for a new users list of climbed peaks
 
-* List of all 14er names
-  * An array will hold all the 14er names and will be used to populate/check the add 14er peak name input
-  * List will be alphabetical and can be created using the 14ers API
+* All 14er data
+  * An array will hold all the 14er data from the 14ers API
  
 ## Functions  - Display
-* Start app - if user has data in local storage render peak list, if the user does not then render new user home screen
+* Start app - render all sections, handle all button clicks, get peak list from API and save to local storage if user does not have it, if user has peak log data in local storage show peak list, if the user does not then render new user home screen
 * Hide content - hides all sections by applying hidden class, then remove hidden class for current section
-* Render welcome page - nice 14er photo, welcome message and button to start tracking
+* Show welcome page - nice 14er photo, welcome message and button to start tracking
 * Handle start tracking button click - take user to the add peak form
-* Render add peak page - header for form,  use <datalist> autocomplete dropdown to select peak, date picker for selecting the date climbed
+* Show add peak page - header for form,  use <datalist> autocomplete dropdown to select peak, date picker for selecting the date climbed
   * datalist example: http://blog.teamtreehouse.com/creating-autocomplete-dropdowns-datalist-element
 *Populate datalist - use 14er API to get peak names and add to datalist as options
 * Handle form submit - check input and show error message if needed, show success alert and render peak list page
 * Validate form - check that user entered required inputs, if not show error message
-* Render peak list page - tab navigation for list and map with focus on list, add peak button at top, show section where photo list will go
+* Show peak list page - tab navigation for list and map with focus on list, add peak button at top, show section where photo list will go
 * Populate peak list - for each peak in the user peak log, show photo and text
 * Handle add peak button click - button in nav used to add peaks, render add peak form page
 * Handle map nav button click - render map page
-* Render map page - tab navigation for list and map changes focus to map, add peak button at top,  render map
+* Show map page - tab navigation for list and map changes focus to map, add peak button at top,  render map
  to map - go to list and add peaks to map (use lat and long?)
 * Handle map pin click - show peak name and info, photo too if possible
 * Handle list tab click - render peak list page

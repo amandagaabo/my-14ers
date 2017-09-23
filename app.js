@@ -1,51 +1,78 @@
 'use strict'
 /**
-* Peak log is the constructor function for the users peak log
-* Functions associated with peak log data manipulation will be prototypes.
+* peakData is used to save all data for each peak from the 14er AIP
 */
-function PeakLog () {
-  this.peaks = []
-}
+const peakData = []
 
 /**
 * User peak log is used to store completed peak data for the user.
-* Functions associated with peak log data manipulation will be prototypes.
 */
-const userPeakLog = new PeakLog()
+const userPeakLog = []
+
 const testData = {
-      peakname: 'Mt. Yale',
-      elevation: "14,100",
-      rank: 30,
-      range: 'Sawatch',
-      lat: 38.749,
-      long: -106.2419,
-      imgSrc: 'https://image.ibb.co/ch7Q15/mountain_photo.jpg',
-      imgAlt: 'Mt. Princeton image',
-      dateClimbed: '2016-12-25'
-    }
-userPeakLog.peaks.push(testData)
+  peakname: 'Mt. Yale',
+  elevation: '14,100',
+  rank: 30,
+  range: 'Sawatch',
+  lat: 38.749,
+  long: -106.2419,
+  imgSrc: 'https://image.ibb.co/ch7Q15/mountain_photo.jpg',
+  imgAlt: 'Mt. Princeton image',
+  dateClimbed: '2016-12-25'
+}
+userPeakLog.push(testData)
+
 /**
 * Start the app.
-* - renderWelcomePage() function is called if local storage is empty
-* - renderPhotoList() function is called if data is in local storage
+* - Get peak data from 14er API if not in local storage, then save to local storage
+* - Handle all button clicks
+* - showWelcomePage() function is called if local storage is empty
+* - showPeakList() function is called if data is in local storage
 */
 function startApp () {
-  if (!localStorage.getItem('userPeakLog')) {
-    console.log('no local storage, render welcome page')
-    handleLogoClick()
-    hideContent()
-    renderWelcomePage()
+  // get 14er data
+  if (!localStorage.getItem('peakData')) {
+    console.log('getting peak list from 14er API and saving to local storage')
   }
+
+  // get data and populate datalist dropdown in add peak form
+  if($('#peak-list > option').length === 0) {
+    populateDatalist()
+  }
+
+  // handle all clicks
+  handleLogoClick()
+  handleStartTrackingBtnClick()
+  handleSubmitForm()
+  handleNavMapBtnClick()
+  handleNavListBtnClick()
+  handleRemovePeakBtnClick()
+  handleAddPeakBtnClick()
+  handleSortByClick()
+
+  // show welcome page or peak list depending on what is in local storage
+  if (!localStorage.getItem('userPeakLog')) {
+    console.log('no local storage, show welcome section')
+    showWelcomeSection()
+  // }
+  // else {
+  //  console.log('user has peak log in local storage, show peak list section')
+    sortByDateClimbed()
+    updatePeakPhotoList()
+    renderMap()
+  // showPeakList()
+  }
+
 }
 
 /**
 * Handle logo click.
 * - logo ID: #logo
-* - startApp() to decide what to load
+* - show list of peaks section if user has data in local storage, else show welcome section
 */
 function handleLogoClick () {
   $('#logo').click(function () {
-    startApp()
+    console.log('logo clicked')
   })
 }
 
@@ -59,45 +86,37 @@ function hideContent () {
 }
 
 /**
-* Render welcome page.
+* Show welcome section.
 * - Hide all sections - hideContent()
-* - Remove class = hidden from welcome page section - ID: #welcome-page
-* - Handle start tracking button click - handleStartTrackingBtnClick()
+* - Remove class = hidden from welcome page section - ID: #welcome-section
 */
-function renderWelcomePage () {
-  console.log('welcome page rendered')
-  $('#welcome-page').removeClass('hidden')
-  handleStartTrackingBtnClick()
+function showWelcomeSection () {
+  console.log('show: welcome section')
+  hideContent()
+  $('#welcome-section').removeClass('hidden')
 }
 
 /**
 * Handle start tracking button click.
 * - Button ID: #start-tracking-btn
-* - Render add peak form page - renderAddPeakPage()
+* - Show add peak form page - showAddPeakSection()
 */
 function handleStartTrackingBtnClick () {
   $('#start-tracking-btn').click(function () {
     console.log('start tracking button clicked')
-    renderAddPeakPage()
+    showAddPeakSection()
   })
 }
 
 /**
-* Render the add peak form page.
-* - Populate datalist options if the list is empty - populateDatalist()
+* Show the add peak section.
 * - Hide all sections - hideContent()
-* - Show add peak section - ID: #add-peak-page
-* - Handle submit button click - handleSubmitForm()
+* - Show add peak section - ID: #add-peak-section
 */
-function renderAddPeakPage () {
-  console.log('add peak page rendered')
-  if($('#peak-list > option').length === 0) {
-    populateDatalist()
-  }
-
+function showAddPeakSection () {
+  console.log('show: add peak section')
   hideContent()
-  $('#add-peak-page').removeClass('hidden')
-  handleSubmitForm()
+  $('#add-peak-section').removeClass('hidden')
 }
 
 /**
@@ -107,12 +126,13 @@ function renderAddPeakPage () {
 * - For each peak name, add an option in the datalist - ID: #peak-list
 */
 function populateDatalist () {
+  // sample peakList, use API data in peakData to make array of peak names
+  console.log('datalist populated')
   const peakList = ['Mt. Princeton', 'Longs Peak', 'Mt. Elbert']
-////////NEED TO GET ALL PEAK NAMES FROM API///////////////////////
   peakList.sort()
 
   peakList.forEach(peak => {
-    $('#peak-list').append(`<option value='${peak}'>`)
+    $('#peak-datalist').append(`<option value='${peak}'>`)
   })
 }
 
@@ -123,23 +143,28 @@ function populateDatalist () {
 * - Prevent default
 * - Clear form inputs
 * - Add peak to userPeakLog - addPeak()
-* - Render list page - renderPeakList()
+* - Update peak photo list - updatePeakPhotoList()
+* - Update peak map - renderMap()
+* - Show peak list page - showPeakListSection()
 */
 function handleSubmitForm () {
   $('#add-peak-form').submit(function (event) {
     event.preventDefault()
 
     if (validateForm()) {
-      console.log('form submitted')
+      console.log('form submitted, adding data to userPeakLog')
       let peakName = $('#peak-climbed').val()
       let date = $('#date-climbed').val()
       addPeak(peakName, date)
+      sortByDateClimbed()
+      updatePeakPhotoList()
+      renderMap()
 
       $('#peak-climbed').val('')
       $('#date-climbed').val('')
       $('#error-message').html('')
 
-      renderPeakList()
+      showPeakListSection()
     }
   })
 }
@@ -181,49 +206,38 @@ function validateForm () {
 }
 
 /**
-* Render peak list page.
+* Show peak list section.
 * - Hide all content sections - hideContent()
 * - Show header add peak button - ID: #add-peak-btn
-* - Show navigation section - ID: #navigation
-* - Show peak list page section - ID: #peak-list-page
+* - Show navigation section - ID: #navigation-section
+* - Show peak list page section - ID: #peak-list-section
 * - Toggle selected class from #map-btn to #list-btn
-* - Sort peaks by date climbed - sortByDateClimbed()
-* - Populate list content - populatePeakListSection()
-* - Handle navigation map button click - handleNavMapBtnClick()
-* - Handle remove peak button click - handleRemovePeakBtnClick()
-* - Handle add peak button click - handleAddPeakBtnClick()
-* - Handle sort by dropdown click - handleSortByClick()
 */
-function renderPeakList () {
-  console.log('peak list page rendered')
+function showPeakListSection () {
+  console.log('show: peak list section')
   hideContent()
-  $('#add-peak-btn, #navigation, #peak-list-page').removeClass('hidden')
+  $('#add-peak-btn, #navigation-section, #peak-list-section').removeClass('hidden')
   $('#list-btn').addClass('selected')
   $('#map-btn').removeClass('selected')
-  sortByDateClimbed()
-  populatePeakListSection()
-  handleNavMapBtnClick()
-  handleRemovePeakBtnClick()
-  handleAddPeakBtnClick()
-  handleSortByClick()
 }
 
 /**
-* Populate peak list section.
-* - Clear out existing peak list section - ID: #peak-list-section
+* Update peak photo list.
+* - Clear out existing peak list section - ID: #peak-photo-list
 * - Generate HTML for each peak in userPeakLog
-* - Add HTML to peak list section - ID: #peak-list-section
+* - Add HTML to peak photo list - ID: #peak-photo-list
 */
-function populatePeakListSection () {
-  $('#peak-list-section').html('')
+function updatePeakPhotoList () {
+  $('#peak-photo-list').html('')
 
-  userPeakLog.peaks.forEach(peak => {
+  userPeakLog.forEach(peak => {
     let date = new Date(peak.dateClimbed)
     let day = date.getDate() + 1
     let month = date.getMonth() + 1
     let year = date.getFullYear()
     let convertedDate = `${month}-${day}-${year}`
-    $('#peak-list-section').append(`
+
+    $('#peak-photo-list').append(`
       <div class="col-6">
         <div class="mountain-box">
           <img src="${peak.imgSrc}" alt="${peak.imgAlt}" class="mountain-photo">
@@ -244,7 +258,7 @@ function populatePeakListSection () {
 * - Sort dropdown ID: #sort-by
 * - Find out which option the user selected
 * - Call sort function based on selection
-* - Re-generate peak list in new order - populatePeakListSection()
+* - Re-generate peak list in new order - updatePeakPhotoList()
 */
 function handleSortByClick () {
   $('#sort-by').change(function () {
@@ -260,64 +274,58 @@ function handleSortByClick () {
       sortByRank()
     }
 
-    populatePeakListSection()
+    updatePeakPhotoList()
   })
 }
 
 /**
 * Handle add peak button click.
 * - Add peak button ID: #add-peak-btn
-* - Render add peak form page - renderAddPeakPage()
+* - Render add peak form page - showAddPeakSection()
 */
 function handleAddPeakBtnClick () {
   $('#add-peak-btn').click(function () {
-    renderAddPeakPage()
+    showAddPeakSection()
   })
 }
 
 /**
 * Handle navigation map button click.
 * - Map nav button ID: #map-btn
-* - Render peak map page - renderPeakMapPage()
+* - Show peak map section - showPeakMapSection()
 */
 function handleNavMapBtnClick () {
   $('#map-btn').click(function () {
     console.log('map nav button clicked')
-    renderPeakMapPage()
+    showPeakMapSection()
   })
 }
 
 /**
-* Render peak map page.
+* Show peak map section.
 * - Hide all content sections - hideContent()
 * - Show header add peak button - ID: #add-peak-btn
-* - Show navigation - ID: #navigation
-* - Show peak map section - ID: #peak-map
+* - Show navigation section - ID: #navigation-section
+* - Show peak map section - ID: #peak-map-section
 * - Toggle selected class from #list-btn to #map-btn
-* - Render map with pins at peaks - renderMap()
-* - Handle navigation list button click - handleNavListBtnClick()
-* - Handle add peak button click - handleAddPeakBtnClick()
 */
-function renderPeakMapPage () {
-  console.log('peak map page rendered')
+function showPeakMapSection () {
+  console.log('show: peak map section')
   hideContent()
-  $('#add-peak-btn, #navigation, #peak-map').removeClass('hidden')
+  $('#add-peak-btn, #navigation-section, #peak-map-section').removeClass('hidden')
   $('#list-btn').removeClass('selected')
   $('#map-btn').addClass('selected')
-  renderMap()
-  handleNavListBtnClick()
-  handleAddPeakBtnClick()
 }
 
 /**
 * Handle navigation list button click.
 * - List button ID: #list-btn
-* - Render list page - renderPeakList()
+* - Show peak list section - showPeakListSection()
 */
 function handleNavListBtnClick () {
   $('#list-btn').click(function () {
     console.log('list nav button clicked')
-    renderPeakList()
+    showPeakListSection()
   })
 }
 
@@ -326,15 +334,18 @@ function handleNavListBtnClick () {
 * - Use parent div to find button that was added after page load - ID: #peak-list-page
 * - Button class = .remove-peak
 * - find out neam of peak being removed - class: .caption-header data-peak attribute
-* - remove peak from user log - removePeak()
-* - update peak list - populatePeakListSection()
+* - remove peak from user log & update local storage - removePeak()
+* - update peak photo list - updatePeakPhotoList()
+* - update map - renderMap()
 */
 function handleRemovePeakBtnClick () {
-  $('#peak-list-page').on('click', '.remove-peak', function () {
-    let peakName = $(this).siblings('.caption-header').data('peak')
-    console.log('remove peak x clicked.', peakName, 'will be removed')
-    removePeak(peakName)
-    populatePeakListSection()
+  $('#peak-list-section').on('click', '.remove-peak', function () {
+    let peakDiv = $(this).parent().parent().parent()
+    let index = $('#peak-photo-list > div').index(peakDiv)
+    console.log('remove peak x clicked, peak removed.'
+    removePeak(index)
+    updatePeakPhotoList()
+    renderMap()
   })
 }
 
@@ -355,13 +366,13 @@ function addPeak (peakName, date) {
   peakData.imgSrc = peakPhotoInfo.imgSrc
   peakData.imgAlt = peakPhotoInfo.imgAlt
   peakData.dateClimbed = date
-  userPeakLog.peaks.push(peakData)
+  userPeakLog.push(peakData)
   console.log(userPeakLog)
 }
 
 /**
 * Get peak data.
-* - Get request to 14er API for data on peak by peakName
+* - Use peak name to sort peakData array and push into userPeakLog
 */
 function getPeakData (peakName) {
   // let peakData = {}
@@ -403,8 +414,10 @@ function getPeakPhoto (lat, long) {
 * - Remove peak from userPeakLog
 * - Update local storage
 */
-function removePeak (peakName) {
-
+function removePeak (index) {
+  console.log('peak removed')
+  //console.log(index)
+  userPeakLog.splice(index, 1)
 }
 
 /**
@@ -412,8 +425,8 @@ function removePeak (peakName) {
 * - Sort userPeakLog by date completed
 */
 function sortByDateClimbed () {
-  //console.log('sorted by date climbed')
-  userPeakLog.peaks.sort((a, b) => new Date(b.dateClimbed) - new Date(a.dateClimbed))
+  console.log('sorted by date climbed')
+  userPeakLog.sort((a, b) => new Date(b.dateClimbed) - new Date(a.dateClimbed))
 }
 
 /**
@@ -421,8 +434,8 @@ function sortByDateClimbed () {
 * - Sort userPeakLog by rank
 */
 function sortByRank () {
-  // console.log('sorted by rank')
-  userPeakLog.peaks.sort((a, b) => a.rank - b.rank)
+  console.log('sorted by rank')
+  userPeakLog.sort((a, b) => a.rank - b.rank)
 }
 
 /**
@@ -431,7 +444,7 @@ function sortByRank () {
 */
 function sortByPeakName () {
   console.log('sorted by peak name')
-  userPeakLog.peaks.sort(function (a, b) {
+  userPeakLog.sort(function (a, b) {
     if (a.peakname < b.peakname) {
       return -1
     }
@@ -449,7 +462,7 @@ function sortByPeakName () {
 * - Enable info pop-up on click for pins
 */
 function renderMap () {
-
+  console.log('map rendered')
 }
 
 $(startApp)

@@ -19,13 +19,13 @@
           <a href="#">My 14ers</a>
         </div>
         <div class="header-btn">
-          <button type="button" class="content" id="add-peak-btn">Add Peak</button>
+          <button type="button" class="content hidden" id="add-peak-btn">Add Peak</button>
         </div>
       </div>
     </header>
 
     <main role="main">
-      <section role="region" class="row content" id="welcome-page">
+      <section role="region" class="row content hidden" id="welcome-section">
         <h1 class="page-heading">Welcome!</h1>
         <div class="col-12">
           <div class="home-box">
@@ -36,7 +36,7 @@
         </div>
       </section>
 
-      <section role="region" class="row content" id="add-peak-page">
+      <section role="region" class="row content hidden" id="add-peak-section">
         <h1 class="page-heading">Add a Peak</h1>
         <div class="col-12">
           <div class="form-box">
@@ -45,8 +45,8 @@
                 <legend>Add Peak</legend>
 
                 <label for="peak-climbed">Peak climbed</label>
-                <input type="text" id="peak-climbed" list="peak-list" placeholder="eg. Mt. Princeton" name="peakClimbed"required="required">
-                <datalist id="peak-list"></datalist>
+                <input type="text" id="peak-climbed" list="peak-datalist" placeholder="eg. Mt. Princeton" name="peakClimbed"required="required">
+                <datalist id="peak-datalist"></datalist>
 
                 <label for="date-climbed">Date</label>
                 <input type="date" id="date-climbed" name="dateClimbed"required="required">
@@ -59,7 +59,7 @@
         </div>
       </section>
 
-      <nav role="navigation" class="row content" id="navigation">
+      <nav role="navigation" class="row content hidden" id="navigation-section">
         <div class="col-12">
           <div class=""s="list-map-nav">
             <button type="button" class="list-btn selected" id="list-btn">List</button><!--
@@ -68,7 +68,7 @@
         </div>
       </nav>
 
-      <section role="region" class="row content" id="peak-list-page">
+      <section role="region" class="row content hidden" id="peak-list-section">
         <div class="col-12">
           <div class="list-sort" id="list-sort">
             <label for="sort-by">Sort by:</label>
@@ -79,10 +79,10 @@
             </select>
           </div>
         </div>
-        <div id="peak-list-section"></div>
+        <div id="peak-photo-list"></div>
       </section>
 
-      <section role="region" class="row content" id="peak-map">
+      <section role="region" class="row content hidden" id="peak-map-section">
         <div class="col-12">
           <div class="map-box">
             <div class="google-map">
