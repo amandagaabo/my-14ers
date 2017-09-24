@@ -87,7 +87,8 @@ My 14ers is an app that will allow users to log which 14ers in Colorado they hav
 
 ## Functions - Data Manipulation
 *	Add peak - adds peak to the users peak log
-* Get peak data - gets data from 14er API
+* Get peak data from API - gets data on all peaks from 14er API
+* Get peak data - get data for individual peak that user is adding to their list
 * Get peak photo - gets photo from flickr using lat and long from 14er get peak data request
 *	Remove peak - removes peak from the users peak log
 *	Sort by rank - sort list by rank
