@@ -90,7 +90,7 @@ input[type=text], input[type=date] {
 
 .list-sort {
   float: right;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .mountain-box {
@@ -102,7 +102,8 @@ input[type=text], input[type=date] {
 }
 
 .caption-header {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .caption-details {
@@ -118,6 +119,10 @@ input[type=text], input[type=date] {
   position: absolute;
   right: 3px;
   top: 3px;
+}
+
+#peak-map-section {
+  padding-top: 25px;
 }
 
 #map {

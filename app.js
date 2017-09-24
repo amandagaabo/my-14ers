@@ -213,9 +213,9 @@ function updatePeakPhotoList () {
     let convertedDate = moment(peak.dateClimbed).format('MMM D, YYYY')
 
     $('#peak-photo-list').append(`
-      <div class="col-6">
+      <div class="col-4">
         <div class="mountain-box">
-          <img src="${peak.imgSrc}" alt="${peak.imgAlt}" class="mountain-photo">
+          <img src="${peak.imgSrc}" alt="${peak.peak_name} photo" class="mountain-photo">
           <div class="caption">
             <h2 class="caption-header" data-peak="${peak.peak_name}">${peak.peak_name} - ${peak.elevation}</h2>
             <p class="caption-details">Rank: ${peak.rank}</p>
@@ -338,11 +338,6 @@ function handleRemovePeakBtnClick () {
 
 function addPeak (peakName, date) {
   let addedPeakData = getPeakData(peakName)
-  let lat = addedPeakData.latitude
-  let long = addedPeakData.longitude
-  let peakPhotoInfo = getPeakPhoto(lat, long)
-  addedPeakData.imgSrc = peakPhotoInfo.imgSrc
-  addedPeakData.imgAlt = peakPhotoInfo.imgAlt
   addedPeakData.dateClimbed = date
   userPeakLog.push(addedPeakData)
   console.log(userPeakLog)
@@ -361,20 +356,6 @@ function getPeakData (peakName) {
 
   console.log('got peak data to add to userPeakLog:', modifiedPeakData)
   return modifiedPeakData
-}
-
-/**
-* Get peak photo.
-* - Get request to flikr API for photo of peak using lat and long
-*/
-function getPeakPhoto (lat, long) {
-  console.log('received lat & long:', lat, long)
-  const samplePhotoData = {
-    imgSrc: 'https://image.ibb.co/ch7Q15/mountain_photo.jpg',
-    imgAlt: 'Mt. Princeton image'
-  }
-
-  return samplePhotoData
 }
 
 /**
@@ -494,6 +475,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 1,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/giaUg5/mt_elbert.jpg",
 		"peak_name": "Mt. Elbert",
 		"range": "Sawatch Range",
 		"rank": "1",
@@ -507,6 +489,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 2,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/hqoMuQ/mt_massive.jpg",
 		"peak_name": "Mt. Massive",
 		"range": "Sawatch Range",
 		"rank": "2",
@@ -520,6 +503,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 3,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/d3s9g5/mt_harvard.jpg",
 		"peak_name": "Mt. Harvard",
 		"range": "Sawatch Range",
 		"rank": "3",
@@ -533,6 +517,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 4,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/d2ZcZQ/blanca.jpg",
 		"peak_name": "Blanca Peak",
 		"range": "Sangre de Cristo",
 		"rank": "4",
@@ -546,6 +531,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 5,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/kOOh15/la_plata.jpg",
 		"peak_name": "La Plata Peak",
 		"range": "Sawatch Range",
 		"rank": "5",
@@ -559,6 +545,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 6,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/bxQqok/uncompahgre.jpg",
 		"peak_name": "Uncompahgre Peak",
 		"range": "San Juan Mountains",
 		"rank": "6",
@@ -572,6 +559,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 7,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/d9pcZQ/crestone_peak.jpg",
 		"peak_name": "Crestone Peak",
 		"range": "Sangre de Cristo",
 		"rank": "7",
@@ -585,6 +573,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 8,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/hniAok/mt_lincoln.jpg",
 		"peak_name": "Mt. Lincoln",
 		"range": "Mosquito Range",
 		"rank": "8",
@@ -598,6 +587,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 9,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/kBxLok/grays.jpg",
 		"peak_name": "Grays Peak",
 		"range": "Front Range",
 		"rank": "9",
@@ -611,6 +601,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 10,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/hbJh15/antero.jpg",
 		"peak_name": "Mt. Antero",
 		"range": "Sawatch Range",
 		"rank": "10",
@@ -624,6 +615,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 11,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/b4MVok/torreys.jpg",
 		"peak_name": "Torreys Peak",
 		"range": "Front Range",
 		"rank": "11",
@@ -637,6 +629,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 12,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/gnzN15/castle.jpg",
 		"peak_name": "Castle Peak",
 		"range": "Elk Mountains",
 		"rank": "12",
@@ -650,6 +643,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 13,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/fCyzg5/quandary.jpg",
 		"peak_name": "Quandary Peak",
 		"range": "Tenmile Range",
 		"rank": "13",
@@ -663,6 +657,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 14,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/cWE0ok/mt_evans.jpg",
 		"peak_name": "Mt. Evans",
 		"range": "Front Range",
 		"rank": "14",
@@ -676,6 +671,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 15,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/buw215/longs.jpg",
 		"peak_name": "Longs Peak",
 		"range": "Front Range",
 		"rank": "15",
@@ -689,6 +685,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 16,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/mcVO8k/mt_wilson.jpg",
 		"peak_name": "Mt. Wilson",
 		"range": "San Juan Mountains",
 		"rank": "16",
@@ -702,6 +699,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 17,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/jWzBuQ/mt_cameron.jpg",
 		"peak_name": "Mt. Cameron",
 		"range": "Mosquito Range",
 		"rank": "N/A",
@@ -715,6 +713,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 18,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/dconZQ/mt_shavano.jpg",
 		"peak_name": "Mt. Shavano",
 		"range": "Sawatch Range",
 		"rank": "17",
@@ -728,6 +727,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 19,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/iK90ok/mt_belford.jpg",
 		"peak_name": "Mt. Belford",
 		"range": "Sawatch Range",
 		"rank": "18",
@@ -741,6 +741,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 20,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/jvGfok/crestone_needle.jpg",
 		"peak_name": "Crestone Needle",
 		"range": "Sangre de Cristo",
 		"rank": "19",
@@ -754,6 +755,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 21,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/jzWkM5/mt_princeton.jpg",
 		"peak_name": "Mt. Princeton",
 		"range": "Sawatch Range",
 		"rank": "20",
@@ -767,6 +769,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 22,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/iaU5M5/mt_yale.jpg",
 		"peak_name": "Mt. Yale",
 		"range": "Sawatch Range",
 		"rank": "21",
@@ -780,6 +783,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 23,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/kGjN15/mt_bross.jpg",
 		"peak_name": "Mt. Bross",
 		"range": "Mosquito Range",
 		"rank": "22",
@@ -793,6 +797,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 24,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/fhF6Tk/kit_carson.jpg",
 		"peak_name": "Kit Carson Peak",
 		"range": "Sangre de Cristo",
 		"rank": "23",
@@ -806,6 +811,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 25,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/gu1fok/el_diente.jpg",
 		"peak_name": "El Diente Peak",
 		"range": "San Juan Mountains",
 		"rank": "N/A",
@@ -819,6 +825,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 26,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/eO2Lok/maroon.jpg",
 		"peak_name": "Maroon Peak",
 		"range": "Elk Mountains",
 		"rank": "24",
@@ -832,6 +839,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 27,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/bK17ZQ/tabeguache.jpg",
 		"peak_name": "Tabeguache Peak",
 		"range": "Sawatch Range",
 		"rank": "25",
@@ -845,6 +853,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 28,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/mCEi8k/mt_oxford.jpg",
 		"peak_name": "Mt. Oxford",
 		"range": "Sawatch Range",
 		"rank": "26",
@@ -858,6 +867,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 29,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/nKfqok/mt_sneffels.jpg",
 		"peak_name": "Mt. Sneffels",
 		"range": "San Juan Mountains",
 		"rank": "27",
@@ -871,6 +881,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 30,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/cDit8k/mt_democrat.jpg",
 		"peak_name": "Mt. Democrat",
 		"range": "Mosquito Range",
 		"rank": "28",
@@ -884,6 +895,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 31,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/nLjBuQ/capitol.jpg",
 		"peak_name": "Capitol Peak",
 		"range": "Elk Mountains",
 		"rank": "29",
@@ -897,6 +909,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 32,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/bSeSZQ/pikes.jpg",
 		"peak_name": "Pikes Peak",
 		"range": "Front Range",
 		"rank": "30",
@@ -910,6 +923,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 33,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/epUuEQ/snowmass.jpg",
 		"peak_name": "Snowmass Mountain",
 		"range": "Elk Mountains",
 		"rank": "31",
@@ -923,6 +937,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 34,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/jS8h15/mt_eolus.jpg",
 		"peak_name": "Mt. Eolus",
 		"range": "San Juan Mountains",
 		"rank": "32",
@@ -936,6 +951,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 35,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/epYX15/wisdom.jpg",
 		"peak_name": "Windom Peak",
 		"range": "San Juan Mountains",
 		"rank": "33",
@@ -949,6 +965,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 36,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/j990ok/challenger_point.jpg",
 		"peak_name": "Challenger Point",
 		"range": "Sangre de Cristo",
 		"rank": "34",
@@ -962,6 +979,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 37,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/hDs9g5/mt_columbia.jpg",
 		"peak_name": "Mt. Columbia",
 		"range": "Sawatch Range",
 		"rank": "35",
@@ -975,6 +993,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 38,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/hDZpg5/missouri.jpg",
 		"peak_name": "Missouri Mountain",
 		"range": "Sawatch Range",
 		"rank": "36",
@@ -988,6 +1007,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 39,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/kTwruQ/humboldt.jpg",
 		"peak_name": "Humboldt Peak",
 		"range": "Sangre de Cristo",
 		"rank": "37",
@@ -1001,6 +1021,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 40,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/dQwD8k/bierstadt.jpg",
 		"peak_name": "Mt. Bierstadt",
 		"range": "Front Range",
 		"rank": "38",
@@ -1014,6 +1035,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 41,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/kgn9g5/conundrum.jpg",
 		"peak_name": "Conundrum Peak",
 		"range": "Elk Mountains",
 		"rank": "N/A",
@@ -1027,6 +1049,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 42,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/d5V1uQ/sunlight.jpg",
 		"peak_name": "Sunlight Peak",
 		"range": "San Juan Mountains",
 		"rank": "39",
@@ -1040,6 +1063,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 43,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/kCjcZQ/handies.jpg",
 		"peak_name": "Handie Peak",
 		"range": "San Juan Mountains",
 		"rank": "40",
@@ -1053,6 +1077,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 44,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/fyOh15/culebra.jpg",
 		"peak_name": "Culebra Peak",
 		"range": "Sangre de Cristo",
 		"rank": "41",
@@ -1066,6 +1091,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 45,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/burPEQ/ellingwood.jpg",
 		"peak_name": "Ellingwood Point",
 		"range": "Sangre de Cristo",
 		"rank": "42",
@@ -1079,6 +1105,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 46,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/kkybTk/mt_lindsey.jpg",
 		"peak_name": "Mt. Lindsey",
 		"range": "Sangre de Cristo",
 		"rank": "43",
@@ -1092,6 +1119,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 47,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/bX3X15/north_eolus.jpg",
 		"peak_name": "North Eolus",
 		"range": "San Juan Mountains",
 		"rank": "N/A",
@@ -1105,6 +1133,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 48,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/f04Y8k/little_bear.jpg",
 		"peak_name": "Little Bear Peak",
 		"range": "Sangre de Cristo",
 		"rank": "44",
@@ -1118,6 +1147,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 49,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/dumKg5/mt_sherman.jpg",
 		"peak_name": "Mt. Sherman",
 		"range": "Mosquito Range",
 		"rank": "45",
@@ -1131,6 +1161,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 50,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/eSDnZQ/redcloud.jpg",
 		"peak_name": "Redcloud Peak",
 		"range": "San Juan Mountains",
 		"rank": "46",
@@ -1144,6 +1175,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 51,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/bwZuEQ/pyramid.jpg",
 		"peak_name": "Pyramid Peak",
 		"range": "Elk Mountains",
 		"rank": "47",
@@ -1157,6 +1189,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 52,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/e48X15/wilson.jpg",
 		"peak_name": "Wilson Peak",
 		"range": "San Juan Mountains",
 		"rank": "48",
@@ -1170,6 +1203,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 53,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/jSSguQ/wetterhorn.jpg",
 		"peak_name": "Wetterhorn Peak",
 		"range": "San Juan Mountains",
 		"rank": "49",
@@ -1183,6 +1217,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 54,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/by6Vok/san_luis.jpg",
 		"peak_name": "San Luis Peak",
 		"range": "San Juan Mountains",
 		"rank": "50",
@@ -1196,6 +1231,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 55,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/hhFeg5/north_maroon.jpg",
 		"peak_name": "North Maroon Peak",
 		"range": "Elk Mountains",
 		"rank": "N/A",
@@ -1209,6 +1245,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 56,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/c7dbTk/mt_of_the_holy_cross.jpg",
 		"peak_name": "Mt. of the Holy Cross",
 		"range": "Sawatch Mountains",
 		"rank": "51",
@@ -1222,6 +1259,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 57,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/giCWuQ/huron.jpg",
 		"peak_name": "Huron Peak",
 		"range": "Sawatch Mountains",
 		"rank": "52",
@@ -1235,6 +1273,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 58,
 	"attributes": {
+    "imgSrc": "https://image.ibb.co/ipS38k/sunshine.jpg",
 		"peak_name": "Sunshine Peak",
 		"range": "San Juan Mountains",
 		"rank": "53",
