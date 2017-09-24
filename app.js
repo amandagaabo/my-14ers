@@ -1,9 +1,10 @@
 'use strict'
+// localStorage.removeItem('userPeakLog')
 
 /**
 * User peak log is used to store completed peak data for the user.
 */
-const userPeakLog = []
+let userPeakLog = []
 
 /**
 * Start the app.
@@ -28,16 +29,19 @@ function startApp () {
   handleSortByClick()
 
   // show welcome section or peak list section depending on what is in local storage
-  if (!localStorage.getItem('userPeakLog')) {
+  if (!localStorage.getItem('userPeakLog') || JSON.parse(localStorage.getItem('userPeakLog')).length === 0) {
     console.log('no local storage, show welcome section')
     showWelcomeSection()
-  // }
-  // else {
-  //  console.log('user has peak log in local storage, show peak list section')
+  }
+  else {
+    console.log('user has peak log in local storage, show peak list section')
+
+    userPeakLog = JSON.parse(localStorage.getItem('userPeakLog'))
+    console.log(userPeakLog)
     sortByDateClimbed()
     updatePeakPhotoList()
     renderMap()
-  // showPeakList()
+    showPeakListSection()
   }
 
 }
@@ -327,7 +331,7 @@ function handleRemovePeakBtnClick () {
 
 /**
 * Add peak.
-* - Get peak data from 14er API using peak name user selected - datalist ID: #peak-list
+* - Get peak data from 14er API using peak name user selected
 * - Get peak photo from flickr API using lat and long from peak data
 * - Add peak photo and alt to peak data
 * - Push peak data to user peak log
@@ -335,15 +339,18 @@ function handleRemovePeakBtnClick () {
 */
 
 function addPeak (peakName, date) {
-  let peakData = getPeakData(peakName)
-  let lat = peakData.lat
-  let long = peakData.long
+  let addedPeakData = getPeakData(peakName)
+  let lat = addedPeakData.latitude
+  let long = addedPeakData.longitude
   let peakPhotoInfo = getPeakPhoto(lat, long)
-  peakData.imgSrc = peakPhotoInfo.imgSrc
-  peakData.imgAlt = peakPhotoInfo.imgAlt
-  peakData.dateClimbed = date
-  userPeakLog.push(peakData)
+  addedPeakData.imgSrc = peakPhotoInfo.imgSrc
+  addedPeakData.imgAlt = peakPhotoInfo.imgAlt
+  addedPeakData.dateClimbed = date
+  userPeakLog.push(addedPeakData)
   console.log(userPeakLog)
+
+  let savedUserPeakLog = JSON.stringify(userPeakLog);
+  localStorage.setItem('userPeakLog', savedUserPeakLog);
 }
 
 /**
@@ -354,23 +361,7 @@ function getPeakData (peakName) {
   let allPeakData = peakData.filter(peak => peak.attributes.peak_name === peakName)
   let modifiedPeakData = allPeakData[0].attributes
 
-
-  console.log('added peak', modifiedPeakData)
-
-  // const peakData = [{
-  // 	"type": "peak",
-  // 	"id": 1,
-  // 	"attributes": {
-  // 		"peak_name": "Mt. Elbert",
-  // 		"range": "Sawatch Range",
-  // 		"rank": "1",
-  // 		"elevation": "14433",
-  // 		"towns": "Leadville, Twin Lakes, Aspen",
-  // 		"latitude": "39.117777777777775",
-  // 		"longitude": "-106.44472222222223"
-  // 	},
-  // 	"links": "colorado-14ers-api.herokuapp.com/api/v1/peaks/1"
-  // },
+  console.log('got peak data to add to userPeakLog:', modifiedPeakData)
   return modifiedPeakData
 }
 
@@ -396,6 +387,9 @@ function removePeak (index) {
   console.log('peak removed')
   //console.log(index)
   userPeakLog.splice(index, 1)
+
+  let savedUserPeakLog = JSON.stringify(userPeakLog);
+  localStorage.setItem('userPeakLog', savedUserPeakLog);
 }
 
 /**
@@ -662,7 +656,7 @@ const peakData = [{
 	"attributes": {
 		"peak_name": "Mt. Cameron",
 		"range": "Mosquito Range",
-		"rank": "0",
+		"rank": "N/A",
 		"elevation": "14238",
 		"towns": "Alma, Fairplay, Breckenridge",
 		"latitude": "39.346944444444446",
@@ -766,7 +760,7 @@ const peakData = [{
 	"attributes": {
 		"peak_name": "El Diente Peak",
 		"range": "San Juan Mountains",
-		"rank": "0",
+		"rank": "N/A",
 		"elevation": "14159",
 		"towns": "Ouray, Telluride, Rico",
 		"latitude": "37.839444444444446",
@@ -974,7 +968,7 @@ const peakData = [{
 	"attributes": {
 		"peak_name": "Conundrum Peak",
 		"range": "Elk Mountains",
-		"rank": "0",
+		"rank": "N/A",
 		"elevation": "14060",
 		"towns": "Ashcroft, Crested Butte, Aspen",
 		"latitude": "39.01444444444444",
@@ -1052,7 +1046,7 @@ const peakData = [{
 	"attributes": {
 		"peak_name": "North Eolus",
 		"range": "San Juan Mountains",
-		"rank": "0",
+		"rank": "N/A",
 		"elevation": "14039",
 		"towns": "Silverton, Ouray",
 		"latitude": "37.625277777777775",
@@ -1156,7 +1150,7 @@ const peakData = [{
 	"attributes": {
 		"peak_name": "North Maroon Peak",
 		"range": "Elk Mountains",
-		"rank": "0",
+		"rank": "N/A",
 		"elevation": "14014",
 		"towns": "Aspen, Snowmass",
 		"latitude": "39.07611111111112",
