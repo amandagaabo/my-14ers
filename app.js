@@ -135,8 +135,10 @@ function handleSubmitForm () {
       console.log('form submitted, adding data to userPeakLog')
       let peakName = $('#peak-climbed').val()
       let date = $('#date-climbed').val()
+      console.log('date value from form')
       addPeak(peakName, date)
       sortByDateClimbed()
+      $('#sort-by').prop('selectedIndex',0);
       updatePeakPhotoList()
       renderMap()
 
@@ -158,11 +160,11 @@ function validateForm () {
   $('#error-message').html('')
 
   let peakName = $('#peak-climbed').val()
-  let dateString = $('#date-climbed').val()
-  let dateClimbed = new Date(dateString)
+  let dateClimbed = $('#date-climbed').val()
   let message = null
-  let today = new Date()
-  let minYear = today.getFullYear() - 100
+  let today = moment(new Date()).format('YYYY-MM-D')
+  let minusHundredYears = moment(today).subtract(100,'years').format('YYYY-MM-D')
+  console.log('dateClimbed:', dateClimbed, 'today', today, 'today minus 100 years', minusHundredYears)
 
   if (!peakName && !dateClimbed) {
     message = 'Please select peak name and date climbed.'
@@ -173,7 +175,7 @@ function validateForm () {
   else if (!dateClimbed) {
     message = 'Please select date climbed.'
   }
-  else if (dateClimbed > today || dateClimbed.getFullYear() < minYear) {
+  else if (!moment(dateClimbed).isBetween(minusHundredYears, today, null,'[]')) {
     message = 'Please select valid date.'
   }
 
@@ -211,11 +213,7 @@ function updatePeakPhotoList () {
   $('#peak-photo-list').html('')
 
   userPeakLog.forEach(peak => {
-    let date = new Date(peak.dateClimbed)
-    let day = date.getDate() + 1
-    let month = date.getMonth() + 1
-    let year = date.getFullYear()
-    let convertedDate = `${month}-${day}-${year}`
+    let convertedDate = moment(peak.dateClimbed).format('MMM D, YYYY')
 
     $('#peak-photo-list').append(`
       <div class="col-6">
@@ -319,13 +317,16 @@ function handleNavListBtnClick () {
 * - update map - renderMap()
 */
 function handleRemovePeakBtnClick () {
+
   $('#peak-list-section').on('click', '.remove-peak', function () {
-    let peakDiv = $(this).parent().parent().parent()
-    let index = $('#peak-photo-list > div').index(peakDiv)
-    console.log('remove peak x clicked, peak removed.')
-    removePeak(index)
-    updatePeakPhotoList()
-    renderMap()
+    if(confirm('Are you sure you want to remove this peak?')) {
+      let peakDiv = $(this).parent().parent().parent()
+      let index = $('#peak-photo-list > div').index(peakDiv)
+      console.log('remove peak x clicked, peak removed.')
+      removePeak(index)
+      updatePeakPhotoList()
+      renderMap()
+    }
   })
 }
 
@@ -359,7 +360,7 @@ function addPeak (peakName, date) {
 */
 function getPeakData (peakName) {
   let allPeakData = peakData.filter(peak => peak.attributes.peak_name === peakName)
-  let modifiedPeakData = allPeakData[0].attributes
+  let modifiedPeakData = Object.assign({}, allPeakData[0].attributes);
 
   console.log('got peak data to add to userPeakLog:', modifiedPeakData)
   return modifiedPeakData
@@ -398,7 +399,11 @@ function removePeak (index) {
 */
 function sortByDateClimbed () {
   console.log('sorted by date climbed')
-  userPeakLog.sort((a, b) => new Date(b.dateClimbed) - new Date(a.dateClimbed))
+  userPeakLog.sort((a, b) => {
+    let dateA = moment(a.dateClimbed).unix()
+    let dateB = moment(b.dateClimbed).unix()
+    return dateB - dateA
+  })
 }
 
 /**

@@ -13,30 +13,28 @@ My 14ers is an app that will allow users to log which 14ers in Colorado they hav
   * Section - add peak form
     * Form header  
     * Select peak dropdown
-    * Select date datepicker
+    * Select date
   * Navigation - list and map view toggle
   * Section - peak photo list
-    * Tab navigation list/map
     * Sort dropdown
 	  * Div for each peak
      * Photo of peak
-     * Description including elevation, rank, range and date climbed
+     * Description including elevation, rank and date climbed
   * Section - map of peaks
-    * Tab navigation list/map
     * Div for map
  
 ## Pages
-* Home  / List View
+* Home  / Photo List View
   * If no peaks have been logged, the user is prompted to add a completed peak
-    * If peaks have been logged, a sortable photo list is displayed with buttons to switch to map view or add a peak
+  * If peaks have been logged, a sortable photo list is displayed with buttons to switch to map view or add a peak
   * Local storage will be used to save user added peaks
  
 * Map View
-  * The map view will display a google map
+  * The map view will display a google map with pins at each completed peak
  
-* Add a Completed Peak
-  * Form where user can select the peak and date hiked
-  * Upon submit the user will get a success message then be taken back to the photo list
+* Add a Completed Peak Form
+  * Form where user can select the peak and date completed
+  * Upon submit if there are errors the user will get a message, if no errors they will be taken back to the photo list
  
 ## Data
 * User peak log
@@ -44,15 +42,15 @@ My 14ers is an app that will allow users to log which 14ers in Colorado they hav
 ```
   const userPeakLog = [
       {
-        peakname: "Mt. Princeton",
+        peak_name: "Mt. Princeton",
         elevation: 14197,
         rank: 20,
         range: "Sawatch",
-        Lat: 38.749,
-        Long: -106.2419,
+        latitude: 38.749,
+        longitude: -106.2419,
         imgSrc: "https://linkforimage.com",
         imgAlt: "description of image",
-        dateClimbed: mm/dd/yyyy
+        dateClimbed: YYYY-MM-DD
       }
     ]
   }
@@ -62,32 +60,27 @@ My 14ers is an app that will allow users to log which 14ers in Colorado they hav
   * An array will hold all the 14er data from the 14ers API
  
 ## Functions  - Display
-* Start app - render all sections, handle all button clicks, get peak list from API and save to local storage if user does not have it, if user has peak log data in local storage show peak list, if the user does not then render new user home screen
+* Start app - setup all sections, handle all button clicks, if user has peak log data in local storage show peak list section, if the user does not then show welcome section
 * Hide content - hides all sections by applying hidden class, then remove hidden class for current section
-* Show welcome page - nice 14er photo, welcome message and button to start tracking
+* Show welcome section - nice 14er photo, welcome message and button to start tracking
 * Handle start tracking button click - take user to the add peak form
-* Show add peak page - header for form,  use <datalist> autocomplete dropdown to select peak, date picker for selecting the date climbed
-  * datalist example: http://blog.teamtreehouse.com/creating-autocomplete-dropdowns-datalist-element
-*Populate datalist - use 14er API to get peak names and add to datalist as options
-* Handle form submit - check input and show error message if needed, show success alert and render peak list page
+* Show add peak section - header for form,  use <datalist> autocomplete dropdown to select peak, date input for selecting the date climbed
+* Populate datalist - use 14er API data to get peak names and add them to datalist as options
+* Handle form submit - check input and show error message if needed, show peak list section if form is submitted successfully
 * Validate form - check that user entered required inputs, if not show error message
-* Show peak list page - tab navigation for list and map with focus on list, add peak button at top, show section where photo list will go
-* Populate peak list - for each peak in the user peak log, show photo and text
-* Handle add peak button click - button in nav used to add peaks, render add peak form page
-* Handle map nav button click - render map page
-* Show map page - tab navigation for list and map changes focus to map, add peak button at top,  render map
- to map - go to list and add peaks to map (use lat and long?)
+* Show peak list section - update navigation css for list, show photo list section
+* Populate peak photo list - for each peak in the user peak log, show photo and text
+* Handle add peak button click - button in nav used to add peaks, show add peak section
+* Handle map nav button click - show map section
+* Show map section - update navigation css for map,  show map section
 * Handle map pin click - show peak name and info, photo too if possible
-* Handle list tab click - render peak list page
-*	Handle remove peak click - render peak list page without the removed peak
-  * Mobile press and hold photo to see delete button
-  * Desktop hover over to see delete button
-*	Handle sort by click - sort list and render list page
-* Handle logo click - render list page if data exists in local storage, render new user home if no data
+* Handle list tab click - show peak list section
+*	Handle remove peak click - remove peak from user peak log and show show peak list page without the removed peak
+*	Handle sort by click - sort list and update photo list section
+* Handle logo click - show list section if data exists in local storage, show welcome section if no data
 
 ## Functions - Data Manipulation
 *	Add peak - adds peak to the users peak log
-* Get peak data from API - gets data on all peaks from 14er API
 * Get peak data - get data for individual peak that user is adding to their list
 * Get peak photo - gets photo from flickr using lat and long from 14er get peak data request
 *	Remove peak - removes peak from the users peak log
