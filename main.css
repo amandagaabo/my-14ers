@@ -120,8 +120,22 @@ input[type=text], input[type=date] {
   top: 3px;
 }
 
-.google-map {
-  height: 400px;
+#map {
+  height: 500px;
   width: 100%;
   border: 1px solid black;
+}
+
+.info-window-header, .info-window-text {
+  margin: 0 auto;
+}
+
+.info-window-header {
+  font-size: 140%;
+  margin-bottom: 5px;
+}
+
+.info-window-image {
+  width: 250px;
+  margin-top: 5px;
 }

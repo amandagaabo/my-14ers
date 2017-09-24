@@ -40,7 +40,6 @@ function startApp () {
     console.log(userPeakLog)
     sortByDateClimbed()
     updatePeakPhotoList()
-    renderMap()
     showPeakListSection()
   }
 
@@ -124,7 +123,6 @@ function populateDatalist () {
 * - Clear form inputs
 * - Add peak to userPeakLog - addPeak()
 * - Update peak photo list - updatePeakPhotoList()
-* - Update peak map - renderMap()
 * - Show peak list page - showPeakListSection()
 */
 function handleSubmitForm () {
@@ -140,7 +138,6 @@ function handleSubmitForm () {
       sortByDateClimbed()
       $('#sort-by').prop('selectedIndex',0);
       updatePeakPhotoList()
-      renderMap()
 
       $('#peak-climbed').val('')
       $('#date-climbed').val('')
@@ -286,6 +283,7 @@ function handleNavMapBtnClick () {
 * - Show navigation section - ID: #navigation-section
 * - Show peak map section - ID: #peak-map-section
 * - Toggle selected class from #list-btn to #map-btn
+* - Render map - renderMap()
 */
 function showPeakMapSection () {
   console.log('show: peak map section')
@@ -293,6 +291,7 @@ function showPeakMapSection () {
   $('#add-peak-btn, #navigation-section, #peak-map-section').removeClass('hidden')
   $('#list-btn').removeClass('selected')
   $('#map-btn').addClass('selected')
+  renderMap()
 }
 
 /**
@@ -314,7 +313,6 @@ function handleNavListBtnClick () {
 * - find out neam of peak being removed - class: .caption-header data-peak attribute
 * - remove peak from user log & update local storage - removePeak()
 * - update peak photo list - updatePeakPhotoList()
-* - update map - renderMap()
 */
 function handleRemovePeakBtnClick () {
 
@@ -325,7 +323,6 @@ function handleRemovePeakBtnClick () {
       console.log('remove peak x clicked, peak removed.')
       removePeak(index)
       updatePeakPhotoList()
-      renderMap()
     }
   })
 }
@@ -371,6 +368,7 @@ function getPeakData (peakName) {
 * - Get request to flikr API for photo of peak using lat and long
 */
 function getPeakPhoto (lat, long) {
+  console.log('received lat & long:', lat, long)
   const samplePhotoData = {
     imgSrc: 'https://image.ibb.co/ch7Q15/mountain_photo.jpg',
     imgAlt: 'Mt. Princeton image'
@@ -432,14 +430,59 @@ function sortByPeakName () {
   })
 }
 
+
 /**
-* Render map.
-* - Use Google maps API to render map of CO
-* - Display pins at each completed peak using lat and long from userPeakLog
-* - Enable info pop-up on click for pins
+* Initiate google map
 */
-function renderMap () {
-  console.log('map rendered')
+function initMap() {
+  console.log('map initiated')
+}
+
+/**
+* Render map
+* - Show map of colorado
+* - Add pins that are in userPeakLog
+*/
+let map
+function renderMap() {
+  console.log('map rendered with pins in userPeakLog')
+
+  let colorado = {lat: 39.0051, lng: -105.5197}
+  map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 7,
+    center: colorado
+  })
+  console.log(userPeakLog)
+
+  userPeakLog.forEach(peak => {
+    let location = {lat: parseFloat(peak.latitude), lng: parseFloat(peak.longitude)}
+
+    let marker = new google.maps.Marker({
+      position: location,
+      map: map,
+      title: `${peak.peak_name}`
+    })
+
+    let convertedDate = moment(peak.dateClimbed).format('MMM D, YYYY')
+    let contentString = `
+      <div>
+        <h1 class="info-window-header">${peak.peak_name}</h1>
+        <p class="info-window-text">Elevation: ${peak.elevation}</p>
+        <p class="info-window-text">Rank: ${peak.rank}</p>
+        <p class="info-window-text">Date climbed: ${convertedDate}</p>
+        <img class="info-window-image" src="${peak.imgSrc}" alt="${peak.imgAlt}">
+      </div>`
+
+    let infowindow = new google.maps.InfoWindow({
+      content: contentString,
+      maxWidth: 300
+    })
+
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+
+  })
 }
 
 $(startApp)
