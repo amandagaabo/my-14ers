@@ -506,7 +506,8 @@ function renderMap() {
     zoom: 7,
     center: colorado
   })
-  console.log(userPeakLog)
+
+  var infowindow = new google.maps.InfoWindow();
 
   userPeakLog.forEach(peak => {
     let location = {lat: parseFloat(peak.latitude), lng: parseFloat(peak.longitude)}
@@ -528,14 +529,9 @@ function renderMap() {
         <img class="info-window-image" src="${peak.imgSrc}" alt="${peak.imgAlt}">
       </div>`
 
-    let infowindow = new google.maps.InfoWindow({
-      content: contentString,
-      maxWidth: 300
-    })
-
-    marker.addListener('click', function() {
-      console.log(marker.title)
-      infowindow.open(map, marker)
+    google.maps.event.addListener(marker, 'click', function () {
+      infowindow.setContent(contentString);
+      infowindow.open(map, marker);
     })
   })
 }
