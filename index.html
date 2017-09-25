@@ -6,32 +6,44 @@
 
     <title>My 14ers</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli">
-    <link rel="stylesheet" href="float-grid.css">
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli"/>
+    <link rel="stylesheet" href="float-grid.css"/>
+    <link  rel="stylesheet" href="circle.css"/>
+    <link rel="stylesheet" href="main.css"/>
   </head>
 
   <body>
-    <header role="banner">
-      <div class="row header">
-        <div class="logo" id="logo">
+    <header role="banner" id="page-header">
+      <div class="row">
+        <div class="col-3" id="logo">
           <h1 class="logo-text">My 14ers</h1>
         </div>
-        <div class="header-btn">
-          <button type="button" class="content hidden" id="add-peak-btn">Add Peak</button>
-        </div>
+        <nav role="navigation" id="main-navigation" class="col-6">
+          <ul>
+            <li class="nav-btn" id="add-peak-nav-btn">Add Peak</li>
+            <li class="nav-btn" id="list-nav-btn">Peak List</li>
+            <li class="nav-btn" id="map-nav-btn">Peak Map</li>
+          </ul>
+        </nav>
       </div>
     </header>
 
     <main role="main">
-      <section role="region" class="row content hidden" id="welcome-section">
-        <h1 class="page-heading">Welcome!</h1>
+      <section role="region" class="row content hidden" id="home-section">
         <div class="col-12">
           <div class="home-box">
-            <img src="https://image.ibb.co/ch7Q15/mountain_photo.jpg" alt="home photo" class="home-photo">
-            <p>How many of the Colorado 14ers have you summited?</p>
-            <button type="button" id="start-tracking-btn">Start Tracking Now!</button>
+            <div id="circle-chart">
+              <div id="progress-circle">
+                  <span id="percent"></span>
+                  <div class="slice">
+                      <div class="bar"></div>
+                      <div class="fill"></div>
+                  </div>
+              </div>
+            </div>
+
+            <p id="number-climbed-summary"><span id="number-climbed"></span> out of <span id="number-total"></span> Colorado 14ers climbed</p>
           </div>
         </div>
       </section>
@@ -47,29 +59,24 @@
                 <label for="peak-climbed">Peak climbed</label>
                 <input type="text" id="peak-climbed" list="peak-datalist" placeholder="eg. Mt. Princeton" name="peakClimbed">
                 <datalist id="peak-datalist" class="scroll"></datalist>
+                <p id="peak-error-message" class="error"></p>
 
                 <label for="date-climbed">Date</label>
                 <input type="date" id="date-climbed" name="dateClimbed">
+                <p id="date-error-message" class="error"></p>
+
+                <label for="user-notes">Notes</label>
+                <input type="text" id="user-notes" name="userNotes">
               </fieldset>
               <button type="submit" id="submit-form">Add</button>
             </form>
-
-            <p id="error-message" class="error"></p>
           </div>
         </div>
       </section>
 
-      <nav role="navigation" class="row content hidden" id="navigation-section">
-        <div class="col-12">
-          <div class=""s="list-map-nav">
-            <button type="button" class="list-btn selected" id="list-btn">List</button><!--
-         --><button type="button" class="map-btn" id="map-btn">Map</button>
-          </div>
-        </div>
-      </nav>
-
       <section role="region" class="row content hidden" id="peak-list-section">
         <div class="col-12">
+          <h1 class="page-heading">Peak List</h1>
           <div class="list-sort" id="list-sort">
             <label for="sort-by">Sort by:</label>
             <select id="sort-by">
@@ -84,6 +91,7 @@
 
       <section role="region" class="row content hidden" id="peak-map-section">
         <div class="col-12">
+          <h1 class="page-heading">Peak Map</h1>
           <div class="map-box">
             <div class="google-map" id="map">
               <p>google map goes here</p>
@@ -92,10 +100,11 @@
         </div>
       </section>
     <main>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQefQ7ivhATqvVdrMSKz7vbLpas0KfKCM&callback=initMap">
-</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQefQ7ivhATqvVdrMSKz7vbLpas0KfKCM&callback=initMap"></script>
     <script src="app.js"></script>
   </body>
 </html>

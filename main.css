@@ -3,9 +3,14 @@ body {
   text-align: center;
 }
 
+main {
+  margin-top: 20px;
+}
+
 .row {
   /*border: 1px solid black;*/
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 /* remove sections that are not currently active */
@@ -13,26 +18,68 @@ body {
   display: none;
 }
 
-.header {
+button:hover, #logo:hover, #sort-by:hover, .nav-btn:hover {
+  cursor: pointer;
+}
+
+#page-header {
   margin-top: 10px;
 }
 
-.logo {
+#logo {
   float: left;
 }
 
 .logo-text {
-  font-size: 35px;
   margin: 0;
 }
 
-.header-btn {
+#main-navigation {
   float: right;
-  margin-top: 8px;
 }
 
-.home-photo {
-  width: 75%;
+#main-navigation ul {
+  margin: 0;
+  padding: 0;
+  font-size: 0;
+}
+
+.nav-btn {
+  display: inline-block;
+  font-size: 14px;
+  padding: 7px 15px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.nav-btn:hover {
+  text-decoration: underline;
+  font-weight: bolder;
+}
+
+#list-nav-btn, #map-nav-btn, #add-peak-nav-btn {
+  border-left: 1px solid black;
+}
+
+#map-nav-btn {
+  border-right: 1px solid black;
+}
+
+.home-box {
+  margin-top: 70px;
+}
+
+.home-box #circle-chart, .home-box #number-climbed-summary {
+  display: inline-block;
+  margin: 0;
+}
+
+#circle-chart {
+  vertical-align: middle;
+}
+
+#number-climbed-summary {
+  font-size: 30px;
 }
 
 /* override form fieldset and legend defaults */
@@ -53,12 +100,17 @@ input[type=text], input[type=date] {
   border-radius: 4px;
 }
 
+.invalid-input {
+  border: 1px solid red;
+}
+
 .scroll {
   overflow-y: scroll;
 }
 
 .error {
   color: red;
+  margin-top: 0;
 }
 
 .list-map-nav {
@@ -87,17 +139,9 @@ input[type=text], input[type=date] {
   color: white;
 }
 
-.mountain-box, .home-box, .form-box, .map-box {
-  margin-bottom: 20px;
-}
-
 .list-sort {
   float: right;
   margin-bottom: 15px;
-}
-
-.mountain-box {
-  clear: right;
 }
 
 .mountain-photo {
@@ -114,7 +158,8 @@ input[type=text], input[type=date] {
 }
 
 .mountain-box {
-  position: relative;
+  margin-bottom: 30px;
+  height: 325px;
 }
 
 .remove-peak {
@@ -122,10 +167,6 @@ input[type=text], input[type=date] {
   position: absolute;
   right: 3px;
   top: 3px;
-}
-
-#peak-map-section {
-  padding-top: 25px;
 }
 
 #map {

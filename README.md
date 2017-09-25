@@ -62,12 +62,13 @@ My 14ers is an app that will allow users to log which 14ers in Colorado they hav
 ## Functions  - Display
 * Start app - setup all sections, handle all button clicks, if user has peak log data in local storage show peak list section, if the user does not then show welcome section
 * Hide content - hides all sections by applying hidden class, then remove hidden class for current section
-* Show welcome section - nice 14er photo, welcome message and button to start tracking
-* Handle start tracking button click - take user to the add peak form
+* Show home section - percent complete summary
+* Update progress section - calculate percent complete and update circle chart and text
 * Show add peak section - header for form,  use <datalist> autocomplete dropdown to select peak, date input for selecting the date climbed
 * Populate datalist - use 14er API data to get peak names and add them to datalist as options
 * Handle form submit - check input and show error message if needed, show peak list section if form is submitted successfully
-* Validate form - check that user entered required inputs, if not show error message
+* Validate peak - check user peak input, show error message if invalid
+* Validate date - check user date input, show error message if invalid
 * Show peak list section - update navigation css for list, show photo list section
 * Populate peak photo list - for each peak in the user peak log, show photo and text
 * Handle add peak button click - button in nav used to add peaks, show add peak section
