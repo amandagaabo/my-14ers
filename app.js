@@ -19,7 +19,6 @@ function startApp () {
   populateDatalist()
 
   // handle all clicks
-  handleLogoClick()
   handleStartTrackingBtnClick()
   handleSubmitForm()
   handleNavMapBtnClick()
@@ -43,17 +42,6 @@ function startApp () {
     showPeakListSection()
   }
 
-}
-
-/**
-* Handle logo click.
-* - logo ID: #logo
-* - show list of peaks section if user has data in local storage, else show welcome section
-*/
-function handleLogoClick () {
-  $('#logo').click(function () {
-    console.log('logo clicked')
-  })
 }
 
 /** Hide content.

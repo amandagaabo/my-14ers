@@ -13,14 +13,17 @@ body {
   display: none;
 }
 
+.header {
+  margin-top: 10px;
+}
+
 .logo {
   float: left;
 }
 
-a {
-  text-decoration: none;
-  color: black;
+.logo h1 {
   font-size: 35px;
+  margin: 0;
 }
 
 .header-btn {

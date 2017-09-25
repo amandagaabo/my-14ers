@@ -20,7 +20,7 @@ My 14ers is an app that will allow users to log which 14ers in Colorado they hav
 	  * Div for each peak
      * Photo of peak
      * Description including elevation, rank and date climbed
-  * Section - map of peaks
+  * Section - map of peaks
     * Div for map
  
 ## Pages
