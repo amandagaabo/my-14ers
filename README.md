@@ -49,8 +49,7 @@ My 14ers is an app that will allow users to log which 14ers in Colorado they hav
         latitude: 38.749,
         longitude: -106.2419,
         imgSrc: "https://linkforimage.com",
-        imgAlt: "description of image",
-        dateClimbed: YYYY-MM-DD
+        dateClimbed: "YYYY-MM-DD"
       }
     ]
   }
@@ -66,7 +65,7 @@ My 14ers is an app that will allow users to log which 14ers in Colorado they hav
 * Update progress section - calculate percent complete and update circle chart and text
 * Show add peak section - header for form,  use <datalist> autocomplete dropdown to select peak, date input for selecting the date climbed
 * Populate datalist - use 14er API data to get peak names and add them to datalist as options
-* Handle form submit - check input and show error message if needed, show peak list section if form is submitted successfully
+* Handle form submit - validate inputs, show peak list section if form is submitted successfully
 * Validate peak - check user peak input, show error message if invalid
 * Validate date - check user date input, show error message if invalid
 * Show peak list section - update navigation css for list, show photo list section
@@ -83,12 +82,11 @@ My 14ers is an app that will allow users to log which 14ers in Colorado they hav
 ## Functions - Data Manipulation
 *	Add peak - adds peak to the users peak log
 * Get peak data - get data for individual peak that user is adding to their list
-* Get peak photo - gets photo from flickr using lat and long from 14er get peak data request
 *	Remove peak - removes peak from the users peak log
 *	Sort by rank - sort list by rank
 *	Sort by date completed - sort list by date climbed
 *	Sort by peak name - sort list alphabetically by peak name
-* Render map - Google map API, load full CO map view, add peaks
+* Render map - Google map API, load full CO map view, add peak pins with infowindows
  
 ## Additional features if there is time
 *	User login
