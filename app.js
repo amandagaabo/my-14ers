@@ -388,10 +388,11 @@ function handleNavListBtnClick () {
 function handleRemovePeakBtnClick () {
 
   $('#peak-list-section').on('click', '.remove-peak', function () {
-    if(confirm('Are you sure you want to remove this peak?')) {
-      let peakDiv = $(this).parent().parent().parent()
+    let peakName = $(this).siblings().data('peak')
+    if(confirm(`Are you sure you want to remove ${peakName}?`)) {
+      let peakDiv = $(this).parent().parent()
       let index = $('#peak-photo-list > div').index(peakDiv)
-      console.log('remove peak x clicked, peak removed.')
+      console.log(`remove peak x clicked, ${peakName} removed.`)
       removePeak(index)
       updatePeakPhotoList()
     }
@@ -412,7 +413,6 @@ function addPeak (peakName, date, notes) {
   addedPeakData.dateClimbed = date
   addedPeakData.notes = notes
   userPeakLog.push(addedPeakData)
-  console.log(userPeakLog)
 
   let savedUserPeakLog = JSON.stringify(userPeakLog);
   localStorage.setItem('userPeakLog', savedUserPeakLog);
