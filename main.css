@@ -53,15 +53,12 @@ button:hover, #logo:hover, #sort-by:hover, .nav-btn:hover {
   padding: 7px 15px;
   border-top: 1px solid black;
   border-bottom: 1px solid black;
+  border-left: 1px solid black;
 }
 
 .nav-btn:hover {
   text-decoration: underline;
   font-weight: bolder;
-}
-
-#list-nav-btn, #map-nav-btn, #add-peak-nav-btn {
-  border-left: 1px solid black;
 }
 
 #map-nav-btn {
@@ -196,4 +193,8 @@ input[type=text], input[type=date] {
 .info-window-image {
   width: 250px;
   margin-top: 5px;
+}
+
+.info-window-key {
+  font-weight: bold;
 }
