@@ -73,7 +73,7 @@ function updateProgressChart() {
   userPeakLog.forEach(peak => peaksClimbed.push(peak.peak_name))
   let uniquePeaksClimbed = _.uniq(peaksClimbed)
   let numberClimbed = uniquePeaksClimbed.length
-  let percent = Math.floor((numberClimbed / totalPeaks) * 100)
+  let percent = Math.ceil((numberClimbed / totalPeaks) * 100)
 
   $('#progress-circle').removeClass()
   $('#progress-circle').addClass(`c100 big black p${percent}`)
@@ -190,7 +190,6 @@ function handleSubmitForm () {
       let notes = $('#user-notes').val()
       addPeak(peakName, date, notes)
       sortByDateClimbed()
-      $('#sort-by').prop('selectedIndex',0);
       updatePeakPhotoList()
       clearFormInputs()
       showPeakListSection()
@@ -292,24 +291,43 @@ function updatePeakPhotoList () {
     $('#peak-photo-list').append('No peaks logged')
   }
   else {
-    userPeakLog.forEach(peak => {
-      let formatedDate = moment(peak.dateClimbed).format('MMM D, YYYY')
-      let formattedElevation = numeral(peak.elevation).format('0,0')
+    // total peaks in userPeakLog
+    let peakNumber = userPeakLog.length
 
-      $('#peak-photo-list').append(`
-        <div class="col-4 mountain-box">
-          <img src="${peak.imgSrc}" alt="${peak.peak_name} photo" class="mountain-photo">
-          <div class="caption">
-            <h2 class="caption-header" data-peak="${peak.peak_name}">${peak.peak_name} - ${formattedElevation}</h2>
-            <p class="caption-details">Rank: ${peak.rank}</p>
-            <p class="caption-details">Date climbed: ${formatedDate}</p>
-            <br>
-            <p class="caption-details">${peak.notes}</p>
-            <button class="button remove-peak">x</button>
-          </div>
-        </div>
+    // number of items per row
+    let n = 3
+    let rowsNeeded = Math.ceil(peakNumber / n)
+
+    // insert HTML rows
+    for (let i = 1; i <= rowsNeeded; i++ ) {
+      $('#peak-photo-list').append(`<div class="row" id="row${i}"></div>`)
+    }
+
+    // split into array with arrays with n items and add html based on which row it needs to go into
+    let i,j,temparray
+    for (i=0,j=userPeakLog.length; i<j; i+=n) {
+      temparray = userPeakLog.slice(i,i+n);
+
+      temparray.forEach( (peak) => {
+        let formatedDate = moment(peak.dateClimbed).format('MMM D, YYYY')
+        let formattedElevation = numeral(peak.elevation).format('0,0')
+        let rowNum = Math.ceil((i+1)/n)
+
+        $(`#row${rowNum}`).append(`
+            <div class="col-4 mountain-box">
+              <img src="${peak.imgSrc}" alt="${peak.peak_name} photo" class="mountain-photo">
+              <div class="caption">
+                <h2 class="caption-header">${peak.peak_name} - ${formattedElevation}</h2>
+                <p class="caption-details">Rank: ${peak.rank}</p>
+                <p class="caption-details">Date climbed: ${formatedDate}</p>
+                <br>
+                <p class="caption-details">${peak.notes}</p>
+                <button class="button remove-peak" data-peak="${peak.peak_name}" data-date="${peak.dateClimbed}">x</button>
+              </div>
+            </div>
         `)
-    })
+      })
+    }
   }
 }
 
@@ -371,7 +389,7 @@ function handleNavMapBtnClick () {
 function handleNavListBtnClick () {
   $('#list-nav-btn').click(function () {
     console.log('list nav button clicked')
-    sortByPeakName()
+    sortByDateClimbed()
     updatePeakPhotoList()
     showPeakListSection()
   })
@@ -388,12 +406,13 @@ function handleNavListBtnClick () {
 function handleRemovePeakBtnClick () {
 
   $('#peak-list-section').on('click', '.remove-peak', function () {
-    let peakName = $(this).siblings().data('peak')
+    let peakName = $(this).data('peak')
+    let dateClimbed = $(this).data('date')
+    console.log("removing:", peakName, dateClimbed)
+
     if(confirm(`Are you sure you want to remove ${peakName}?`)) {
-      let peakDiv = $(this).parent().parent()
-      let index = $('#peak-photo-list > div').index(peakDiv)
       console.log(`remove peak x clicked, ${peakName} removed.`)
-      removePeak(index)
+      removePeak(peakName, dateClimbed)
       updatePeakPhotoList()
     }
   })
@@ -435,10 +454,12 @@ function getPeakData (peakName) {
 * - Remove peak from userPeakLog
 * - Update local storage
 */
-function removePeak (index) {
-  console.log('peak removed')
-  //console.log(index)
-  userPeakLog.splice(index, 1)
+function removePeak (peakName, dateClimbed) {
+  _.remove(userPeakLog, function(peak) {
+    if(peak.peak_name === peakName && peak.dateClimbed === dateClimbed) {
+      return true
+    }
+  })
 
   let savedUserPeakLog = JSON.stringify(userPeakLog);
   localStorage.setItem('userPeakLog', savedUserPeakLog);
@@ -455,6 +476,7 @@ function sortByDateClimbed () {
     let dateB = moment(b.dateClimbed).unix()
     return dateB - dateA
   })
+  $('#sort-by').prop('selectedIndex',0);
 }
 
 /**
@@ -755,7 +777,7 @@ const peakData = [{
 	"type": "peak",
 	"id": 16,
 	"attributes": {
-    "imgSrc": "https://image.ibb.co/mcVO8k/mt_wilson.jpg",
+    "imgSrc": "https://image.ibb.co/fiRob5/mt_wilson.jpg",
 		"peak_name": "Mt. Wilson",
 		"range": "San Juan Mountains",
 		"rank": "16",
