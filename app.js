@@ -517,7 +517,7 @@ function initMap() {
 * Render map
 * - Show map of colorado
 * - Add pins that are in userPeakLog
-* - Add info window to each pin
+* - Add info window to each pin when clicked
 */
 let map
 function renderMap() {
@@ -529,9 +529,38 @@ function renderMap() {
     center: colorado
   })
 
-  var infowindow = new google.maps.InfoWindow();
+  let infowindow = new google.maps.InfoWindow();
+
+  let peakMarkers = []
+  let peakNames = []
 
   userPeakLog.forEach(peak => {
+    let peakName = peak.peak_name
+
+    if(!peakNames.includes(peakName)) {
+      peakNames.push(peakName)
+
+      let peakDataToAdd = {
+        peak_name: peak.peak_name,
+        elevation: peak.elevation,
+        rank: peak.rank,
+        dateClimbed: [peak.dateClimbed],
+        imgSrc: peak.imgSrc,
+        latitude: peak.latitude,
+        longitude: peak.longitude
+      }
+
+      peakMarkers.push(peakDataToAdd)
+    }
+    else {
+      let index = peakMarkers.findIndex(peak => peak.peak_name === peakName)
+      peakMarkers[index].dateClimbed.push(peak.dateClimbed)
+    }
+  })
+
+  console.log('peak markers:', peakMarkers)
+
+  peakMarkers.forEach(peak => {
     let location = {lat: parseFloat(peak.latitude), lng: parseFloat(peak.longitude)}
 
     let marker = new google.maps.Marker({
@@ -540,15 +569,33 @@ function renderMap() {
       title: `${peak.peak_name}`
     })
 
-    let formatedDate = moment(peak.dateClimbed).format('MMM D, YYYY')
     let formatedElevation = numeral(peak.elevation).format('0,0')
+    let dateContentString = ''
+    let dateArray = peak.dateClimbed
+    dateArray.sort()
+    let formatedDateArray = []
+
+    dateArray.forEach(date => {
+       let formatedDate = moment(date).format('MMM D, YYYY')
+       formatedDateArray.push(formatedDate)
+    })
+
+    if (formatedDateArray.length === 1) {
+      let date = formatedDateArray[0]
+      dateContentString = `<p class="info-window-text">Date climbed: ${date}</p>`
+    }
+    else {
+      let dates = formatedDateArray.join(', ')
+      dateContentString = `<p class="info-window-text">Dates climbed: ${dates}</p>`
+    }
+
     let contentString = `
       <div>
         <h1 class="info-window-header">${peak.peak_name}</h1>
         <p class="info-window-text">Elevation: ${formatedElevation}</p>
         <p class="info-window-text">Rank: ${peak.rank}</p>
-        <p class="info-window-text">Date climbed: ${formatedDate}</p>
-        <img class="info-window-image" src="${peak.imgSrc}" alt="${peak.imgAlt}">
+        ${dateContentString}
+        <img class="info-window-image" src="${peak.imgSrc}" alt="${peak.peak_name} photo">
       </div>`
 
     google.maps.event.addListener(marker, 'click', function () {
