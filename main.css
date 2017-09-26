@@ -105,6 +105,10 @@ input[type=text], input[type=date] {
   border-radius: 4px;
 }
 
+#peak-select {
+  display: none;
+}
+
 .invalid-input {
   border: 1px solid red;
 }

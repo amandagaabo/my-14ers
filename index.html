@@ -6,6 +6,7 @@
 
     <title>My 14ers</title>
 
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli"/>
     <link rel="stylesheet" href="float-grid.css"/>
@@ -58,7 +59,9 @@
 
                 <label for="peak-climbed">Peak climbed</label>
                 <input type="text" id="peak-climbed" list="peak-datalist" placeholder="eg. Mt. Princeton" name="peakClimbed">
-                <datalist id="peak-datalist"></datalist>
+                <datalist id="peak-datalist">
+                  <select id="peak-select"></select>
+                </datalist>
                 <p id="peak-error-message" class="error"></p>
 
                 <label for="date-climbed">Date</label>
@@ -101,6 +104,7 @@
       </section>
     <main>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>

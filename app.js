@@ -21,8 +21,9 @@ function startApp () {
     console.log('loaded user peak log from local storage', userPeakLog)
   }
 
-  // populate datalist in add peak form
+  // populate datalist in add peak form and enable auto complete for browsers that dont support datalist
   populateDatalist()
+  enableDatalistAutocomplete()
 
   // enable date picker for browsers that dont support type=date
   enableDatePicker()
@@ -164,9 +165,29 @@ function populateDatalist () {
   peakData.forEach(peak => peakList.push(peak.attributes.peak_name))
   peakList.sort()
   peakList.forEach(peak => {
-    $('#peak-datalist').append(`<option value='${peak}'>`)
+    $('#peak-select').append(`<option value='${peak}'/>`)
   })
   console.log('datalist populated')
+}
+
+/**
+* Enable datalist autocomplete.
+* - For browsers that do not support datalist, enable autocomplete with the select input
+*/
+function enableDatalistAutocomplete () {
+  let nativedatalist = !!('list' in document.createElement('input')) &&
+  !!(document.createElement('datalist') && window.HTMLDataListElement)
+  console.log('datalist suppored:', nativedatalist)
+
+  if (!nativedatalist) {
+    $('input[list]').each(function () {
+      let availableTags = $('#peak-datalist').find('option').map(function () {
+          return this.value
+        }).get()
+      $('#peak-name').autocomplete({ source: availableTags })
+    })
+    console.log('datalist autocomplete enabled')
+  }
 }
 
 /**
@@ -175,8 +196,6 @@ function populateDatalist () {
 */
 function enableDatePicker () {
   if (!$('input[type="date"]')) {
-    document.write('<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"/>')
-    document.write('<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>')
     $('#date-climbed').datepicker()
     console.log('type=date not available, date picker enabled')
   }
@@ -379,6 +398,7 @@ function handleSortByClick () {
 */
 function handleAddPeakBtnClick () {
   $('#add-peak-nav-btn').click(function () {
+    console.log('add peak nav button clicked')
     showAddPeakSection()
   })
 }
