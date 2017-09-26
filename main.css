@@ -28,14 +28,17 @@ button:hover, #logo:hover, #sort-by:hover, .nav-btn:hover {
 
 #logo {
   float: left;
+  margin-bottom: 10px;
 }
 
 .logo-text {
   margin: 0;
+  margin-top: 5px
 }
 
 #main-navigation {
   float: right;
+  margin-top: 10px;
 }
 
 #main-navigation ul {
@@ -63,6 +66,11 @@ button:hover, #logo:hover, #sort-by:hover, .nav-btn:hover {
 
 #map-nav-btn {
   border-right: 1px solid black;
+}
+
+.page-heading {
+  margin-top: 0;
+  margin-bottom: 15px;
 }
 
 .home-box {
@@ -142,6 +150,7 @@ input[type=text], input[type=date] {
 .list-sort {
   float: right;
   margin-bottom: 15px;
+  margin-right: 20px;
 }
 
 .mountain-photo {
@@ -151,6 +160,7 @@ input[type=text], input[type=date] {
 .caption-header {
   margin-bottom: 5px;
   margin-top: 5px;
+  font-size: 20px;
 }
 
 .caption-details {
@@ -159,8 +169,6 @@ input[type=text], input[type=date] {
 
 .mountain-box {
   position: relative;
-  margin-bottom: 30px;
-  height: 325px;
 }
 
 .remove-peak {
