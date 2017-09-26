@@ -65,6 +65,7 @@ My 14ers is an app that will allow users to log which 14ers in Colorado they hav
 * Update progress section - calculate percent complete and update circle chart and text
 * Show add peak section - header for form,  use <datalist> autocomplete dropdown to select peak, date input for selecting the date climbed
 * Populate datalist - use 14er API data to get peak names and add them to datalist as options
+* Enable date picker - for browsers that dont support input type="date", use jQuery datepicker()
 * Handle form submit - validate inputs, show peak list section if form is submitted successfully
 * Validate peak - check user peak input, show error message if invalid
 * Validate date - check user date input, show error message if invalid

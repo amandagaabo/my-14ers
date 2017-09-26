@@ -24,6 +24,9 @@ function startApp () {
   // populate datalist in add peak form
   populateDatalist()
 
+  // enable date picker for browsers that dont support type=date
+  enableDatePicker()
+
   // handle all clicks
   handleLogoClick()
   handleSubmitForm()
@@ -164,6 +167,19 @@ function populateDatalist () {
     $('#peak-datalist').append(`<option value='${peak}'>`)
   })
   console.log('datalist populated')
+}
+
+/**
+* Enable date picker.
+* - If browser does not support input type = date, use jQuery to add date picker to date text input - ID: #date-climbed
+*/
+function enableDatePicker () {
+  if (!$('input[type="date"]')) {
+    document.write('<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"/>')
+    document.write('<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>')
+    $('#date-climbed').datepicker()
+    console.log('type=date not available, date picker enabled')
+  }
 }
 
 /**
@@ -519,8 +535,9 @@ function initMap() {
 * - Add pins that are in userPeakLog
 * - Add info window to each pin when clicked
 */
-let map
+
 function renderMap() {
+  let map
   console.log('map rendered with pins in userPeakLog')
 
   // set map base to show all of colorado
