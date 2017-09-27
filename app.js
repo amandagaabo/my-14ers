@@ -6,12 +6,12 @@
 let userPeakLog = []
 
 /**
-* Start the app.
+* Start app.
+* - Get user data if it exists in local storage
 * - Populate form datalist
+* - Enable datepicker for browsers that are not type=date compatible
 * - Handle all button clicks
-* - showHomeSection() function is called if local storage is empty
-* - showPeakListSection() function is called if data is in local storage
-* - Sort peak data and update peak photo list and map before showing peak list section
+* - Show home section (update progress chart if data available)
 */
 function startApp () {
   // load user peak log from local storage
@@ -46,7 +46,7 @@ function startApp () {
 
 /** Hide content.
 * - Hide all content sections
-* - Sections class = content
+* - Sections class = .content
 * - Add class = hidden
 */
 function hideContent () {
@@ -55,21 +55,24 @@ function hideContent () {
 
 /**
 * Handle start tracking button click.
+* - Clear form inputs - clearFormInputs()
 * - Show add peak section
 */
-function handleStartTrackingBtnClick() {
-  $('#start-tracking-btn').click(function() {
+function handleStartTrackingBtnClick () {
+  $('#start-tracking-btn').click(function () {
     console.log('start tracking button clicked')
+    clearFormInputs()
     showAddPeakSection()
   })
 }
 
 /**
 * Handle logo click.
-* - Update progress chart
-* - Show home section
+* - Logo ID: #logo
+* - Update progress chart - updateProgressChart()
+* - Show home section - showHomeSection()
 */
-function handleLogoClick() {
+function handleLogoClick () {
   $('#logo').click(function () {
     updateProgressChart()
     showHomeSection()
@@ -78,10 +81,11 @@ function handleLogoClick() {
 
 /**
 * Handle navigation home button click.
-* - Update progress chart
-* - Show home section
+* - Nav home button ID: #home-nav-btn
+* - Update progress chart - updateProgressChart()
+* - Show home section - showHomeSection()
 */
-function handleNavHomeBtnClick() {
+function handleNavHomeBtnClick () {
   $('#home-nav-btn').click(function () {
     updateProgressChart()
     showHomeSection()
@@ -91,11 +95,13 @@ function handleNavHomeBtnClick() {
 /**
 * Handle navigation add peak button click.
 * - Add peak button ID: #add-peak-nav-btn
+* - Clear form inputs - clearFormInputs()
 * - Show add peak form page - showAddPeakSection()
 */
 function handleNavAddPeakBtnClick () {
   $('#add-peak-nav-btn').click(function () {
     console.log('add peak nav button clicked')
+    clearFormInputs()
     showAddPeakSection()
   })
 }
@@ -103,7 +109,7 @@ function handleNavAddPeakBtnClick () {
 /**
 * Handle navigation list button click.
 * - List button ID: #list-nav-btn
-* - Sort peak list - sortByDateClimbed( )
+* - Sort peak list - sortByDateClimbed()
 * - Update photo list - updatePeakPhotoList()
 * - Show peak list section - showPeakListSection()
 */
@@ -136,7 +142,7 @@ function handleNavMapBtnClick () {
 * - Update text span number climbed - #number-climbed
 * - Update text span total peaks - #number-total
 */
-function updateProgressChart() {
+function updateProgressChart () {
   let totalPeaks = peakData.length
   let peaksClimbed = []
   userPeakLog.forEach(peak => peaksClimbed.push(peak.peak_name))
@@ -154,6 +160,8 @@ function updateProgressChart() {
 /**
 * Show home section.
 * - Hide all sections - hideContent()
+* - Show new user section of home if no data in userPeakLog - #new-user-section
+* - Show current user section of home if there is data in userPeakLog - #current-user-section
 * - Update nav bar css classes
 * - Remove class = hidden from home page section - ID: #home-section
 */
@@ -161,11 +169,10 @@ function showHomeSection () {
   console.log('show: home section')
   hideContent()
 
-  if(userPeakLog.length === 0) {
+  if (userPeakLog.length === 0) {
     $('#new-user-section').removeClass('hidden')
     $('#current-user-section').addClass('hidden')
-  }
-  else {
+  } else {
     $('#new-user-section').addClass('hidden')
     $('#current-user-section').removeClass('hidden')
   }
@@ -188,14 +195,12 @@ function showAddPeakSection () {
   hideContent()
   $('#map-nav-btn, #list-nav-btn, #home-nav-btn').removeClass('selected')
   $('#add-peak-nav-btn').addClass('selected')
-
-  clearFormInputs()
   $('#add-peak-section').removeClass('hidden')
 
-  $('#peak-climbed').focusout(function() {
+  $('#peak-climbed').focusout(function () {
     validatePeak()
   })
-  $('#date-climbed').focusout(function() {
+  $('#date-climbed').focusout(function () {
     validateDate()
   })
 }
@@ -217,7 +222,7 @@ function showPeakListSection () {
 /**
 * Show peak map section.
 * - Hide all content sections - hideContent()
-* - Update nab button css classes
+* - Update nav button css classes
 * - Show peak map section - ID: #peak-map-section
 * - Render map - renderMap()
 */
@@ -258,8 +263,8 @@ function enableDatalistAutocomplete () {
   if (!nativedatalist) {
     $('input[list]').each(function () {
       let availableTags = $('#peak-datalist').find('option').map(function () {
-          return this.value
-        }).get()
+        return this.value
+      }).get()
       $('#peak-name').autocomplete({ source: availableTags })
     })
     console.log('datalist autocomplete enabled')
@@ -282,7 +287,6 @@ function enableDatePicker () {
 * - Form ID: #add-peak-form
 * - Validate form - validateForm()
 * - Prevent default
-* - Clear form inputs
 * - Add peak to userPeakLog - addPeak()
 * - Update peak photo list - updatePeakPhotoList()
 * - Show peak list page - showPeakListSection()
@@ -290,10 +294,9 @@ function enableDatePicker () {
 function handleSubmitForm () {
   $('#add-peak-form').submit(function (event) {
     event.preventDefault()
-
     let validPeak = validatePeak()
     let validDate = validateDate()
-    console.log(validPeak, validDate)
+
     if (validPeak && validDate) {
       console.log('form submitted, adding data to userPeakLog')
       let peakName = $('#peak-climbed').val()
@@ -302,7 +305,6 @@ function handleSubmitForm () {
       addPeak(peakName, date, notes)
       sortByDateClimbed()
       updatePeakPhotoList()
-      clearFormInputs()
       showPeakListSection()
     }
   })
@@ -311,7 +313,7 @@ function handleSubmitForm () {
 /**
 * Clear Form
 */
-function clearFormInputs() {
+function clearFormInputs () {
   $('#peak-climbed, #date-climbed, #user-notes').val('')
   $('#peak-error-message, #date-error-message').html('')
   $('#peak-climbed, #date-climbed').removeClass('invalid-input')
@@ -323,7 +325,7 @@ function clearFormInputs() {
 * - Input for peak name - #peak-climbed
 * - Error message p - #peak-error-message
 */
-function validatePeak() {
+function validatePeak () {
   let peakName = $('#peak-climbed').val()
   let validPeak = true
   let message = null
@@ -334,8 +336,7 @@ function validatePeak() {
   if (!peakName) {
     validPeak = false
     message = 'Please select a peak.'
-  }
-  else if (!peakList.includes(peakName)) {
+  } else if (!peakList.includes(peakName)) {
     validPeak = false
     message = 'Peak name must be in the list.'
   }
@@ -359,18 +360,18 @@ function validatePeak() {
 * - Input for date name - #date-climbed
 * - Error message p - #date-error-message
 */
-function validateDate() {
+function validateDate () {
   let dateClimbed = $('#date-climbed').val()
   let validDate = true
   let message = null
   let today = moment(new Date()).format('YYYY-MM-D')
-  let minusHundredYears = moment(today).subtract(100,'years').format('YYYY-MM-D')// check that input exists and is today or earlier
+  let minusHundredYears = moment(today).subtract(100, 'years').format('YYYY-MM-D')// check that input exists and is today or earlier
 
   if (!dateClimbed) {
     validDate = false
     message = 'Please select a date.'
   }
-  if (!moment(dateClimbed).isBetween(minusHundredYears, today, null,'[]')) {
+  if (!moment(dateClimbed).isBetween(minusHundredYears, today, null, '[]')) {
     validDate = false
     message = 'Date must be today or earlier.'
   }
@@ -400,8 +401,7 @@ function updatePeakPhotoList () {
   if (!localStorage.getItem('userPeakLog') || JSON.parse(localStorage.getItem('userPeakLog')).length === 0) {
     console.log('no local storage')
     $('#peak-photo-list').append('No peaks logged')
-  }
-  else {
+  } else {
     // total peaks in userPeakLog
     let peakNumber = userPeakLog.length
 
@@ -410,19 +410,19 @@ function updatePeakPhotoList () {
     let rowsNeeded = Math.ceil(peakNumber / n)
 
     // insert HTML rows
-    for (let i = 1; i <= rowsNeeded; i++ ) {
+    for (let i = 1; i <= rowsNeeded; i++) {
       $('#peak-photo-list').append(`<div class="list-row col-12" id="row${i}"></div>`)
     }
 
     // split into array with arrays with n items and add html based on which row it needs to go into
-    let i,j,temparray
-    for (i=0,j=userPeakLog.length; i<j; i+=n) {
-      temparray = userPeakLog.slice(i,i+n);
+    let i, j, temparray
+    for (i = 0, j = userPeakLog.length; i < j; i += n) {
+      temparray = userPeakLog.slice(i, i + n)
 
-      temparray.forEach( (peak) => {
+      temparray.forEach((peak) => {
         let formatedDate = moment(peak.dateClimbed).format('MMM D, YYYY')
         let formattedElevation = numeral(peak.elevation).format('0,0')
-        let rowNum = Math.ceil((i+1)/n)
+        let rowNum = Math.ceil((i + 1) / n)
 
         $(`#row${rowNum}`).append(`
             <div class="col-4 mountain-box">
@@ -446,13 +446,13 @@ function updatePeakPhotoList () {
 * Handle sort by click
 * - Sort dropdown ID: #sort-by
 * - Find out which option the user selected
-* - Call sort function based on selection
+* - Sort userPeakLog based on selection
 * - Re-generate peak list in new order - updatePeakPhotoList()
 */
 function handleSortByClick () {
   $('#sort-by').change(function () {
     let userSort = $('#sort-by option:selected').val()
-    //console.log(userSort)
+
     if (userSort === 'date-climbed') {
       sortByDateClimbed()
     }
@@ -476,13 +476,12 @@ function handleSortByClick () {
 * - update peak photo list - updatePeakPhotoList()
 */
 function handleRemovePeakBtnClick () {
-
   $('#peak-list-section').on('click', '.remove-peak', function () {
     let peakName = $(this).data('peak')
     let dateClimbed = $(this).data('date')
-    console.log("removing:", peakName, dateClimbed)
+    console.log('removing:', peakName, dateClimbed)
 
-    if(confirm(`Are you sure you want to remove ${peakName}?`)) {
+    if (confirm(`Are you sure you want to remove ${peakName}?`)) {
       console.log(`remove peak x clicked, ${peakName} removed.`)
       removePeak(peakName, dateClimbed)
       updatePeakPhotoList()
@@ -505,17 +504,18 @@ function addPeak (peakName, date, notes) {
   addedPeakData.notes = notes
   userPeakLog.push(addedPeakData)
 
-  let savedUserPeakLog = JSON.stringify(userPeakLog);
-  localStorage.setItem('userPeakLog', savedUserPeakLog);
+  let savedUserPeakLog = JSON.stringify(userPeakLog)
+  localStorage.setItem('userPeakLog', savedUserPeakLog)
 }
 
 /**
 * Get peak data.
-* - Use peak name to find peakName in peakData and push into userPeakLog
+* - Use peak name to find peakName in peakData and get data
+* - Add data to a new object and push into userPeakLog
 */
 function getPeakData (peakName) {
   let allPeakData = peakData.filter(peak => peak.attributes.peak_name === peakName)
-  let modifiedPeakData = Object.assign({}, allPeakData[0].attributes);
+  let modifiedPeakData = Object.assign({}, allPeakData[0].attributes)
 
   console.log('got peak data to add to userPeakLog:', modifiedPeakData)
   return modifiedPeakData
@@ -527,14 +527,14 @@ function getPeakData (peakName) {
 * - Update local storage
 */
 function removePeak (peakName, dateClimbed) {
-  _.remove(userPeakLog, function(peak) {
-    if(peak.peak_name === peakName && peak.dateClimbed === dateClimbed) {
+  _.remove(userPeakLog, function (peak) {
+    if (peak.peak_name === peakName && peak.dateClimbed === dateClimbed) {
       return true
     }
   })
 
-  let savedUserPeakLog = JSON.stringify(userPeakLog);
-  localStorage.setItem('userPeakLog', savedUserPeakLog);
+  let savedUserPeakLog = JSON.stringify(userPeakLog)
+  localStorage.setItem('userPeakLog', savedUserPeakLog)
 }
 
 /**
@@ -548,7 +548,7 @@ function sortByDateClimbed () {
     let dateB = moment(b.dateClimbed).unix()
     return dateB - dateA
   })
-  $('#sort-by').prop('selectedIndex',0);
+  $('#sort-by').prop('selectedIndex', 0)
 }
 
 /**
@@ -577,11 +577,10 @@ function sortByPeakName () {
   })
 }
 
-
 /**
 * Initiate google map
 */
-function initMap() {
+function initMap () {
   console.log('map initiated')
 }
 
@@ -592,7 +591,7 @@ function initMap() {
 * - Add info window to each pin when clicked
 */
 
-function renderMap() {
+function renderMap () {
   let map
   console.log('map rendered with pins in userPeakLog')
 
@@ -604,7 +603,7 @@ function renderMap() {
   })
 
   // define infowindow with max size
-  let infowindow = new google.maps.InfoWindow( {
+  let infowindow = new google.maps.InfoWindow({
     maxWidth: 250
   })
 
@@ -615,7 +614,7 @@ function renderMap() {
   userPeakLog.forEach(peak => {
     let peakName = peak.peak_name
 
-    if(!peakNames.includes(peakName)) {
+    if (!peakNames.includes(peakName)) {
       peakNames.push(peakName)
 
       let peakDataToAdd = {
@@ -629,8 +628,7 @@ function renderMap() {
       }
 
       peakMarkers.push(peakDataToAdd)
-    }
-    else {
+    } else {
       let index = peakMarkers.findIndex(peak => peak.peak_name === peakName)
       peakMarkers[index].dateClimbed.push(peak.dateClimbed)
     }
@@ -656,15 +654,14 @@ function renderMap() {
     // format the dates and push to new array
     let formatedDateArray = []
     dateArray.forEach(date => {
-       let formatedDate = moment(date).format('MMM D, YYYY')
-       formatedDateArray.push(formatedDate)
+      let formatedDate = moment(date).format('MMM D, YYYY')
+      formatedDateArray.push(formatedDate)
     })
 
     if (formatedDateArray.length === 1) {
       let date = formatedDateArray[0]
       dateContentString = `<p class="info-window-text"><span class="info-window-key">Date climbed:</span> ${date}</p>`
-    }
-    else {
+    } else {
       let dates = formatedDateArray.join(', ')
       dateContentString = `<p class="info-window-text"><span class="info-window-key">Dates climbed:</span> ${dates}</p>`
     }
@@ -681,13 +678,13 @@ function renderMap() {
 
     // when marker is clicked, set content and open infowindow
     google.maps.event.addListener(marker, 'click', function () {
-      infowindow.setContent(contentString);
-      infowindow.open(map, marker);
+      infowindow.setContent(contentString)
+      infowindow.open(map, marker)
     })
 
     // when map is clicked, close open info window
-    google.maps.event.addListener(map, 'click', function() {
-      infowindow.close();
+    google.maps.event.addListener(map, 'click', function () {
+      infowindow.close()
     })
   })
 }
