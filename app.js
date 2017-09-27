@@ -1,5 +1,4 @@
 'use strict'
-// localStorage.removeItem('userPeakLog')
 
 /**
 * User peak log is used to store completed peak data for the user.
@@ -29,12 +28,15 @@ function startApp () {
   enableDatePicker()
 
   // handle all clicks
+  handleStartTrackingBtnClick()
   handleLogoClick()
   handleSubmitForm()
-  handleNavMapBtnClick()
+  handleNavHomeBtnClick()
+  handleNavAddPeakBtnClick()
   handleNavListBtnClick()
+  handleNavMapBtnClick()
   handleRemovePeakBtnClick()
-  handleAddPeakBtnClick()
+
   handleSortByClick()
 
   // update progress chart and show home section
@@ -52,6 +54,17 @@ function hideContent () {
 }
 
 /**
+* Handle start tracking button click.
+* - Show add peak section
+*/
+function handleStartTrackingBtnClick() {
+  $('#start-tracking-btn').click(function() {
+    console.log('start tracking button clicked')
+    showAddPeakSection()
+  })
+}
+
+/**
 * Handle logo click.
 * - Update progress chart
 * - Show home section
@@ -60,6 +73,58 @@ function handleLogoClick() {
   $('#logo').click(function () {
     updateProgressChart()
     showHomeSection()
+  })
+}
+
+/**
+* Handle navigation home button click.
+* - Update progress chart
+* - Show home section
+*/
+function handleNavHomeBtnClick() {
+  $('#home-nav-btn').click(function () {
+    updateProgressChart()
+    showHomeSection()
+  })
+}
+
+/**
+* Handle navigation add peak button click.
+* - Add peak button ID: #add-peak-nav-btn
+* - Show add peak form page - showAddPeakSection()
+*/
+function handleNavAddPeakBtnClick () {
+  $('#add-peak-nav-btn').click(function () {
+    console.log('add peak nav button clicked')
+    showAddPeakSection()
+  })
+}
+
+/**
+* Handle navigation list button click.
+* - List button ID: #list-nav-btn
+* - Sort peak list - sortByDateClimbed( )
+* - Update photo list - updatePeakPhotoList()
+* - Show peak list section - showPeakListSection()
+*/
+function handleNavListBtnClick () {
+  $('#list-nav-btn').click(function () {
+    console.log('list nav button clicked')
+    sortByDateClimbed()
+    updatePeakPhotoList()
+    showPeakListSection()
+  })
+}
+
+/**
+* Handle navigation map button click.
+* - Map nav button ID: #map-nav-btn
+* - Show peak map section - showPeakMapSection()
+*/
+function handleNavMapBtnClick () {
+  $('#map-nav-btn').click(function () {
+    console.log('map nav button clicked')
+    showPeakMapSection()
   })
 }
 
@@ -89,13 +154,24 @@ function updateProgressChart() {
 /**
 * Show home section.
 * - Hide all sections - hideContent()
-* - Update nave bar css classes
+* - Update nav bar css classes
 * - Remove class = hidden from home page section - ID: #home-section
 */
 function showHomeSection () {
   console.log('show: home section')
   hideContent()
-  $('#add-peak-nav-btn, #map-nav-btn, #list-nav-btn').removeClass('selected')
+
+  if(userPeakLog.length === 0) {
+    $('#new-user-section').removeClass('hidden')
+    $('#current-user-section').addClass('hidden')
+  }
+  else {
+    $('#new-user-section').addClass('hidden')
+    $('#current-user-section').removeClass('hidden')
+  }
+
+  $('#add-peak-nav-btn, #list-nav-btn, #map-nav-btn').removeClass('selected')
+  $('#home-nav-btn').addClass('selected')
   $('#home-section').removeClass('hidden')
 }
 
@@ -110,7 +186,7 @@ function showHomeSection () {
 function showAddPeakSection () {
   console.log('show: add peak section')
   hideContent()
-  $('#map-nav-btn, #list-nav-btn').removeClass('selected')
+  $('#map-nav-btn, #list-nav-btn, #home-nav-btn').removeClass('selected')
   $('#add-peak-nav-btn').addClass('selected')
 
   clearFormInputs()
@@ -133,7 +209,7 @@ function showAddPeakSection () {
 function showPeakListSection () {
   console.log('show: peak list section')
   hideContent()
-  $('#map-nav-btn, #add-peak-nav-btn').removeClass('selected')
+  $('#map-nav-btn, #add-peak-nav-btn, #home-nav-btn').removeClass('selected')
   $('#list-nav-btn').addClass('selected')
   $('#peak-list-section').removeClass('hidden')
 }
@@ -148,7 +224,7 @@ function showPeakListSection () {
 function showPeakMapSection () {
   console.log('show: peak map section')
   hideContent()
-  $('#add-peak-nav-btn, #list-nav-btn').removeClass('selected')
+  $('#add-peak-nav-btn, #list-nav-btn, #home-nav-btn').removeClass('selected')
   $('#map-nav-btn').addClass('selected')
   $('#peak-map-section').removeClass('hidden')
   renderMap()
@@ -335,7 +411,7 @@ function updatePeakPhotoList () {
 
     // insert HTML rows
     for (let i = 1; i <= rowsNeeded; i++ ) {
-      $('#peak-photo-list').append(`<div class="row" id="row${i}"></div>`)
+      $('#peak-photo-list').append(`<div class="list-row col-12" id="row${i}"></div>`)
     }
 
     // split into array with arrays with n items and add html based on which row it needs to go into
@@ -388,46 +464,6 @@ function handleSortByClick () {
     }
 
     updatePeakPhotoList()
-  })
-}
-
-/**
-* Handle add peak nav button click.
-* - Add peak button ID: #add-peak-nav-btn
-* - Show add peak form page - showAddPeakSection()
-*/
-function handleAddPeakBtnClick () {
-  $('#add-peak-nav-btn').click(function () {
-    console.log('add peak nav button clicked')
-    showAddPeakSection()
-  })
-}
-
-/**
-* Handle navigation map button click.
-* - Map nav button ID: #map-nav-btn
-* - Show peak map section - showPeakMapSection()
-*/
-function handleNavMapBtnClick () {
-  $('#map-nav-btn').click(function () {
-    console.log('map nav button clicked')
-    showPeakMapSection()
-  })
-}
-
-/**
-* Handle navigation list button click.
-* - List button ID: #list-nav-btn
-* - Sort peak list - sortByDateClimbed( )
-* - Update photo list - updatePeakPhotoList()
-* - Show peak list section - showPeakListSection()
-*/
-function handleNavListBtnClick () {
-  $('#list-nav-btn').click(function () {
-    console.log('list nav button clicked')
-    sortByDateClimbed()
-    updatePeakPhotoList()
-    showPeakListSection()
   })
 }
 

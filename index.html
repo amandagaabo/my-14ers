@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <title>My 14ers</title>
 
@@ -17,16 +17,20 @@
   <body>
     <header role="banner" id="page-header">
       <div class="row">
-        <div class="col-3" id="logo">
-          <h1 class="logo-text">My 14ers</h1>
+        <div class="col-6">
+          <h1 class="logo-text" id="logo">My 14ers</h1>
         </div>
-        <nav role="navigation" id="main-navigation" class="col-6">
-          <ul>
-            <li class="nav-btn" id="add-peak-nav-btn">Add Peak</li>
-            <li class="nav-btn" id="list-nav-btn">Peak List</li>
-            <li class="nav-btn" id="map-nav-btn">Peak Map</li>
-          </ul>
-        </nav>
+
+        <div class="col-6">
+          <nav role="navigation" id="main-navigation">
+            <ul>
+              <li class="nav-btn" id="home-nav-btn">Home</li>
+              <li class="nav-btn" id="add-peak-nav-btn">Add Peak</li>
+              <li class="nav-btn" id="list-nav-btn">Peak List</li>
+              <li class="nav-btn" id="map-nav-btn">Peak Map</li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </header>
 
@@ -34,67 +38,88 @@
       <section role="region" class="row content hidden" id="home-section">
         <div class="col-12">
           <div class="home-box">
-            <div id="circle-chart">
-              <div id="progress-circle">
-                  <span id="percent"></span>
-                  <div class="slice">
-                      <div class="bar"></div>
-                      <div class="fill"></div>
-                  </div>
-              </div>
+            <div id="new-user-section">
+              <h1 class="page-heading">Welcome!</h1>
+              <p class="new-user-message">Looking for a rewarding hike?  Colorado has 58 fourteeners with trails of variying lengths
+                and difficulties. Fourteeners (also known as 14ers) are mountains that have peaks over 14,000 ft in elevation.  These high
+                altitude hikes can be dangerous, so be sure to plan ahead and do your resesarch before tackling one.  A great resource for
+                planning is <a href="https://www.14ers.com/photos/photos_14ers1.php">14ers.com</a>, which has safety tips, route info, photos,
+                weather forcasts and maps.</p>
+              <img src="https://image.ibb.co/iK90ok/mt_belford.jpg" alt="hiking trail welcome photo" id="welcome-image">
+              <p class="new-user-message">Ready to start logging the 14ers you have completed?</p>
+              <button type="button" class="standard-btn" id="start-tracking-btn">Start tracking now!</button>
             </div>
 
-            <p id="number-climbed-summary"><span id="number-climbed"></span> out of <span id="number-total"></span> Colorado 14ers climbed</p>
+            <div id="current-user-section">
+              <h1 class="page-heading">Summary of Colorado 14ers Climbed</h1>
+              <div id="circle-chart">
+                <div id="progress-circle">
+                    <span id="percent"></span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
+              </div>
+              <p id="number-climbed-summary"><span id="number-climbed"></span> out of <span id="number-total"></span> peaks</p>
+
+              <h2> Plan your next hike</h2>
+              <p>A great resource for planning is <a href="https://www.14ers.com/photos/photos_14ers1.php">14ers.com</a>, which
+                has safety tips, route info, photos, weather forcasts and maps.</p>
+            </div>
           </div>
         </div>
       </section>
 
       <section role="region" class="row content hidden" id="add-peak-section">
-        <h1 class="page-heading">Add a Peak</h1>
         <div class="col-12">
-          <div class="form-box">
-            <form role="form" id="add-peak-form" action="" method="post">
-              <fieldset name="add-peak">
-                <legend>Add Peak</legend>
+          <h1 class="page-heading">Add a Peak</h1>
 
-                <label for="peak-climbed">Peak climbed</label>
-                <input type="text" id="peak-climbed" list="peak-datalist" placeholder="eg. Mt. Princeton" name="peakClimbed">
-                <datalist id="peak-datalist">
-                  <select id="peak-select"></select>
-                </datalist>
-                <p id="peak-error-message" class="error"></p>
+          <form role="form" id="add-peak-form" action="" method="post">
+            <fieldset name="add-peak">
+              <legend>Add Peak</legend>
 
-                <label for="date-climbed">Date</label>
-                <input type="date" id="date-climbed" name="dateClimbed">
-                <p id="date-error-message" class="error"></p>
+              <label for="peak-climbed">Peak climbed</label>
+              <input type="text" id="peak-climbed" list="peak-datalist" placeholder="eg. Mt. Princeton" name="peakClimbed">
+              <datalist id="peak-datalist">
+                <select id="peak-select"></select>
+              </datalist>
+              <p id="peak-error-message" class="error"></p>
 
-                <label for="user-notes">Notes</label>
-                <input type="text" id="user-notes" name="userNotes">
-              </fieldset>
-              <button type="submit" id="submit-form">Add</button>
-            </form>
-          </div>
+              <label for="date-climbed">Date</label>
+              <input type="date" id="date-climbed" name="dateClimbed">
+              <p id="date-error-message" class="error"></p>
+
+              <label for="user-notes">Notes</label>
+              <input type="text" id="user-notes" name="userNotes">
+            </fieldset>
+            <button type="submit" id="submit-form" class="standard-btn">Add</button>
+          </form>
         </div>
       </section>
 
       <section role="region" class="row content hidden" id="peak-list-section">
         <div class="col-12">
-          <h1 class="page-heading">Peak List</h1>
-          <div class="list-sort" id="list-sort">
-            <label for="sort-by">Sort by:</label>
-            <select id="sort-by">
-              <option value="date-climbed">Date climbed</option>
-              <option value="peak-name">Peak name</option>
-              <option value="peak-rank">Peak rank</option>
-            </select>
+          <h1 class="page-heading">Peaks Climbed</h1>
+          <div class="list-box">
+            <div class="list-sort" id="list-sort">
+              <label for="sort-by">Sort by:</label>
+              <select id="sort-by">
+                <option value="date-climbed">Date climbed</option>
+                <option value="peak-name">Peak name</option>
+                <option value="peak-rank">Peak rank</option>
+              </select>
+            </div>
+
+            <div id="peak-photo-list"></div>
           </div>
         </div>
-        <div id="peak-photo-list"></div>
       </section>
 
       <section role="region" class="row content hidden" id="peak-map-section">
         <div class="col-12">
-          <h1 class="page-heading">Peak Map</h1>
+          <h1 class="page-heading">Map of Peaks Climbed</h1>
+
           <div class="map-box">
             <div class="google-map" id="map">
               <p>google map goes here</p>
@@ -102,7 +127,10 @@
           </div>
         </div>
       </section>
-    <main>
+    </main>
+    
+    <footer id="page-footer"><div class="row"></div></footer>
+
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>

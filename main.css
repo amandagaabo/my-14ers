@@ -1,19 +1,18 @@
 body {
   font-family: 'Muli', sans-serif;
   text-align: center;
+  background-image: url(https://image.ibb.co/cpWWDk/background_dkgrey2.png);
 }
 
-main {
-  margin-top: 20px;
+.content {
+  height: 100vh;
+  padding-top: 20px;
 }
 
 .row {
-  /*border: 1px solid black;*/
-  margin-bottom: 20px;
-  margin-top: 20px;
+  background-color: white;
 }
 
-/* remove sections that are not currently active */
 .hidden {
   display: none;
 }
@@ -22,38 +21,54 @@ button:hover, #logo:hover, #sort-by:hover, .nav-btn:hover {
   cursor: pointer;
 }
 
-#page-header {
-  margin-top: 10px;
+.standard-btn, #sort-by {
+  background-color: #3A3A3F;
+  color: white;
+  font-size: 18px;
+  padding: 10px 25px;
+  border-radius: 5px
+}
+
+.standard-btn:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+#page-header .row, #page-footer{
+  padding: 5px 0 0 0;
+  background-image: url(https://image.ibb.co/cpWWDk/background_dkgrey2.png);
+}
+
+#page-footer {
+  height: 60px;
 }
 
 #logo {
-  float: left;
-  margin-bottom: 10px;
-}
-
-.logo-text {
   margin: 0;
-  margin-top: 5px
-}
-
-#main-navigation {
-  float: right;
-  margin-top: 10px;
+  font-size: 45px;
+  color: white;
 }
 
 #main-navigation ul {
-  margin: 0;
+  margin: 15px 0;
   padding: 0;
   font-size: 0;
+  list-style: none;
 }
 
 .nav-btn {
   display: inline-block;
-  font-size: 14px;
-  padding: 7px 15px;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-  border-left: 1px solid black;
+  color: white;
+  font-size: 18px;
+  width: 25%;
+  text-align: center;
+  padding: 6px;
+  border-radius: 10px;
+  border-color: white;
+}
+
+.selected {
+  background-color: white;
+  color: black;
 }
 
 .nav-btn:hover {
@@ -61,22 +76,22 @@ button:hover, #logo:hover, #sort-by:hover, .nav-btn:hover {
   font-weight: bolder;
 }
 
-#map-nav-btn {
-  border-right: 1px solid black;
-}
-
-.page-heading {
+.page-heading, .list-sort, .list-row {
   margin-top: 0;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
-.home-box {
-  margin-top: 70px;
+#welcome-image {
+  width: 75%;
+}
+
+.new-user-message {
+  font-size: 18px;
 }
 
 .home-box #circle-chart, .home-box #number-climbed-summary {
   display: inline-block;
-  margin: 0;
+  margin-top: 20px;
 }
 
 #circle-chart {
@@ -98,6 +113,10 @@ legend {
   display: none;
 }
 
+label {
+  font-size: 18px;
+}
+
 input[type=text], input[type=date] {
   width: 100%;
   padding: 10px 20px;
@@ -113,45 +132,9 @@ input[type=text], input[type=date] {
   border: 1px solid red;
 }
 
-.scroll {
-  overflow-y: scroll;
-}
-
 .error {
   color: red;
   margin-top: 0;
-}
-
-.list-map-nav {
-  text-align: center;
-}
-
-.list-btn, .map-btn {
-  width: 25%;
-  height: 30px;
-  background-color: white;
-  border: 1px solid black;
-}
-
-.list-btn {
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-}
-
-.map-btn {
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-}
-
-.selected {
-  background-color: black;
-  color: white;
-}
-
-.list-sort {
-  float: right;
-  margin-bottom: 15px;
-  margin-right: 20px;
 }
 
 .mountain-photo {
