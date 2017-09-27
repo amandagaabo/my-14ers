@@ -46,7 +46,7 @@
 }
 
 /* Non-mobile, grid and other settings */
-@media only screen and (min-width: 900px) {
+@media only screen and (min-device-width: 800px) {
   /* 3 columns, 3/12 in % */
   .col-3 {
     width: 25%;

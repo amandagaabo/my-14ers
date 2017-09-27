@@ -1,5 +1,4 @@
 'use strict'
-// localStorage.removeItem('userPeakLog')
 
 /**
 * User peak log is used to store completed peak data for the user.

@@ -4,12 +4,9 @@ body {
   background-image: url(https://image.ibb.co/cpWWDk/background_dkgrey2.png);
 }
 
-main {
-  padding-top: 20px;
-}
-
 .content {
   height: 100vh;
+  padding-top: 20px;
 }
 
 .row {
@@ -24,7 +21,7 @@ button:hover, #logo:hover, #sort-by:hover, .nav-btn:hover {
   cursor: pointer;
 }
 
-.standard-btn {
+.standard-btn, #sort-by {
   background-color: #3A3A3F;
   color: white;
   font-size: 18px;
@@ -37,8 +34,12 @@ button:hover, #logo:hover, #sort-by:hover, .nav-btn:hover {
 }
 
 #page-header .row, #page-footer{
-  padding: 0;
+  padding: 5px 0 0 0;
   background-image: url(https://image.ibb.co/cpWWDk/background_dkgrey2.png);
+}
+
+#page-footer {
+  height: 60px;
 }
 
 #logo {
@@ -110,6 +111,10 @@ fieldset {
 
 legend {
   display: none;
+}
+
+label {
+  font-size: 18px;
 }
 
 input[type=text], input[type=date] {
