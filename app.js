@@ -265,7 +265,7 @@ function enableDatalistAutocomplete () {
       let availableTags = $('#peak-datalist').find('option').map(function () {
         return this.value
       }).get()
-      $('#peak-name').autocomplete({ source: availableTags })
+      $('#peak-climbed').autocomplete({ source: availableTags })
     })
     console.log('datalist autocomplete enabled')
   }
