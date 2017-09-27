@@ -17,84 +17,98 @@
   <body>
     <header role="banner" id="page-header">
       <div class="row">
-        <div class="col-3" id="logo">
-          <h1 class="logo-text">My 14ers</h1>
+        <div class="col-3">
+          <h1 class="logo-text" id="logo">My 14ers</h1>
         </div>
-        <nav role="navigation" id="main-navigation" class="col-6">
-          <ul>
-            <li class="nav-btn" id="add-peak-nav-btn">Add Peak</li>
-            <li class="nav-btn" id="list-nav-btn">Peak List</li>
-            <li class="nav-btn" id="map-nav-btn">Peak Map</li>
-          </ul>
-        </nav>
+
+        <div class="col-9">
+          <nav role="navigation" id="main-navigation">
+            <ul>
+              <li class="nav-btn" id="home-nav-btn">Home</li>
+              <li class="nav-btn" id="add-peak-nav-btn">Add Peak</li>
+              <li class="nav-btn" id="list-nav-btn">Peak List</li>
+              <li class="nav-btn" id="map-nav-btn">Peak Map</li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </header>
 
-    <main role="main">
+    <main role="main" class="row">
       <section role="region" class="row content hidden" id="home-section">
         <div class="col-12">
           <div class="home-box">
-            <div id="circle-chart">
-              <div id="progress-circle">
-                  <span id="percent"></span>
-                  <div class="slice">
-                      <div class="bar"></div>
-                      <div class="fill"></div>
-                  </div>
-              </div>
+            <div id="new-user-section">
+              <p id="new-user-message">Keep track of all the Colorado 14ers you have summited by logging them here.</p>
+              <button type="button" class="standard-btn" id="start-tracking-btn">Start tracking now!</button>
             </div>
 
-            <p id="number-climbed-summary"><span id="number-climbed"></span> out of <span id="number-total"></span> Colorado 14ers climbed</p>
+            <div id="current-user-section">
+              <h1 class="page-heading">Summary of Colorado 14ers Climbed</h1>
+              <div id="circle-chart">
+                <div id="progress-circle">
+                    <span id="percent"></span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
+              </div>
+              <p id="number-climbed-summary"><span id="number-climbed"></span> out of <span id="number-total"></span> peaks</p>
+            </div>
           </div>
         </div>
       </section>
 
       <section role="region" class="row content hidden" id="add-peak-section">
-        <h1 class="page-heading">Add a Peak</h1>
         <div class="col-12">
-          <div class="form-box">
-            <form role="form" id="add-peak-form" action="" method="post">
-              <fieldset name="add-peak">
-                <legend>Add Peak</legend>
+          <h1 class="page-heading">Add a Peak</h1>
 
-                <label for="peak-climbed">Peak climbed</label>
-                <input type="text" id="peak-climbed" list="peak-datalist" placeholder="eg. Mt. Princeton" name="peakClimbed">
-                <datalist id="peak-datalist">
-                  <select id="peak-select"></select>
-                </datalist>
-                <p id="peak-error-message" class="error"></p>
+          <form role="form" id="add-peak-form" action="" method="post">
+            <fieldset name="add-peak">
+              <legend>Add Peak</legend>
 
-                <label for="date-climbed">Date</label>
-                <input type="date" id="date-climbed" name="dateClimbed">
-                <p id="date-error-message" class="error"></p>
+              <label for="peak-climbed">Peak climbed</label>
+              <input type="text" id="peak-climbed" list="peak-datalist" placeholder="eg. Mt. Princeton" name="peakClimbed">
+              <datalist id="peak-datalist">
+                <select id="peak-select"></select>
+              </datalist>
+              <p id="peak-error-message" class="error"></p>
 
-                <label for="user-notes">Notes</label>
-                <input type="text" id="user-notes" name="userNotes">
-              </fieldset>
-              <button type="submit" id="submit-form">Add</button>
-            </form>
-          </div>
+              <label for="date-climbed">Date</label>
+              <input type="date" id="date-climbed" name="dateClimbed">
+              <p id="date-error-message" class="error"></p>
+
+              <label for="user-notes">Notes</label>
+              <input type="text" id="user-notes" name="userNotes">
+            </fieldset>
+            <button type="submit" id="submit-form" class="standard-btn">Add</button>
+          </form>
         </div>
       </section>
 
       <section role="region" class="row content hidden" id="peak-list-section">
         <div class="col-12">
-          <h1 class="page-heading">Peak List</h1>
-          <div class="list-sort" id="list-sort">
-            <label for="sort-by">Sort by:</label>
-            <select id="sort-by">
-              <option value="date-climbed">Date climbed</option>
-              <option value="peak-name">Peak name</option>
-              <option value="peak-rank">Peak rank</option>
-            </select>
+          <h1 class="page-heading">Peaks Climbed</h1>
+          <div class="list-box">
+            <div class="list-sort" id="list-sort">
+              <label for="sort-by">Sort by:</label>
+              <select id="sort-by">
+                <option value="date-climbed">Date climbed</option>
+                <option value="peak-name">Peak name</option>
+                <option value="peak-rank">Peak rank</option>
+              </select>
+            </div>
+
+            <div id="peak-photo-list"></div>
           </div>
         </div>
-        <div id="peak-photo-list"></div>
       </section>
 
       <section role="region" class="row content hidden" id="peak-map-section">
         <div class="col-12">
-          <h1 class="page-heading">Peak Map</h1>
+          <h1 class="page-heading">Map of Peaks Climbed</h1>
+
           <div class="map-box">
             <div class="google-map" id="map">
               <p>google map goes here</p>
@@ -102,7 +116,9 @@
           </div>
         </div>
       </section>
-    <main>
+    </main>
+    <footer id="page-footer"></footer>
+
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
