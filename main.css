@@ -2,7 +2,6 @@ body {
   font-family: 'Muli', sans-serif;
   text-align: center;
   background-image: url(https://image.ibb.co/cpWWDk/background_dkgrey2.png);
-  /*background-image: url(https://image.ibb.co/nrSGeQ/background_green3.png);*/
 }
 
 main {
@@ -40,18 +39,16 @@ button:hover, #logo:hover, #sort-by:hover, .nav-btn:hover {
 #page-header .row, #page-footer{
   padding: 0;
   background-image: url(https://image.ibb.co/cpWWDk/background_dkgrey2.png);
-  height: 60px;
 }
 
 #logo {
-  float: left;
   margin: 0;
   font-size: 45px;
   color: white;
 }
 
 #main-navigation ul {
-  margin: 0;
+  margin: 15px 0;
   padding: 0;
   font-size: 0;
   list-style: none;
@@ -61,10 +58,11 @@ button:hover, #logo:hover, #sort-by:hover, .nav-btn:hover {
   display: inline-block;
   color: white;
   font-size: 18px;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 20px;
-  height: 60px;
+  width: 25%;
+  text-align: center;
+  padding: 6px;
+  border-radius: 10px;
+  border-color: white;
 }
 
 .selected {
@@ -77,13 +75,17 @@ button:hover, #logo:hover, #sort-by:hover, .nav-btn:hover {
   font-weight: bolder;
 }
 
-.page-heading {
+.page-heading, .list-sort, .list-row {
   margin-top: 0;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
-#new-user-message {
-  font-size: 20px;
+#welcome-image {
+  width: 75%;
+}
+
+.new-user-message {
+  font-size: 18px;
 }
 
 .home-box #circle-chart, .home-box #number-climbed-summary {
@@ -128,14 +130,6 @@ input[type=text], input[type=date] {
 .error {
   color: red;
   margin-top: 0;
-}
-
-.list-sort {
-  margin-bottom: 10px;
-}
-
-#peak-photo-list {
-  margin-top: 15px;
 }
 
 .mountain-photo {
