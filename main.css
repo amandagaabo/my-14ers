@@ -5,8 +5,9 @@ body {
 }
 
 .content {
-  height: 100vh;
+  min-height: 100vh;
   padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .row {
