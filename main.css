@@ -77,7 +77,7 @@ button:hover, #logo:hover, #sort-by:hover, .nav-btn:hover {
   font-weight: bolder;
 }
 
-.page-heading, .list-sort, .list-row {
+.page-heading, .list-sort {
   margin-top: 0;
   margin-bottom: 20px;
 }
@@ -154,6 +154,7 @@ input[type=text], input[type=date] {
 
 .mountain-box {
   position: relative;
+  margin-bottom: 20px;
 }
 
 .remove-peak {
