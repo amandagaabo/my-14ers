@@ -36,7 +36,6 @@ function startApp () {
   handleNavListBtnClick()
   handleNavMapBtnClick()
   handleRemovePeakBtnClick()
-
   handleSortByClick()
 
   // update progress chart and show home section
