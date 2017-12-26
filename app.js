@@ -17,7 +17,6 @@ function startApp () {
   // load user peak log from local storage
   if (localStorage.getItem('userPeakLog')) {
     userPeakLog = JSON.parse(localStorage.getItem('userPeakLog'))
-    console.log('loaded user peak log from local storage', userPeakLog)
   }
 
   // populate datalist in add peak form and enable auto complete for browsers that dont support datalist
@@ -59,7 +58,6 @@ function hideContent () {
 */
 function handleStartTrackingBtnClick () {
   $('#start-tracking-btn').click(function () {
-    console.log('start tracking button clicked')
     clearFormInputs()
     showAddPeakSection()
   })
@@ -99,7 +97,6 @@ function handleNavHomeBtnClick () {
 */
 function handleNavAddPeakBtnClick () {
   $('#add-peak-nav-btn').click(function () {
-    console.log('add peak nav button clicked')
     clearFormInputs()
     showAddPeakSection()
   })
@@ -114,7 +111,6 @@ function handleNavAddPeakBtnClick () {
 */
 function handleNavListBtnClick () {
   $('#list-nav-btn').click(function () {
-    console.log('list nav button clicked')
     sortByDateClimbed()
     updatePeakPhotoList()
     showPeakListSection()
@@ -128,7 +124,6 @@ function handleNavListBtnClick () {
 */
 function handleNavMapBtnClick () {
   $('#map-nav-btn').click(function () {
-    console.log('map nav button clicked')
     showPeakMapSection()
   })
 }
@@ -165,7 +160,6 @@ function updateProgressChart () {
 * - Remove class = hidden from home page section - ID: #home-section
 */
 function showHomeSection () {
-  console.log('show: home section')
   hideContent()
 
   if (userPeakLog.length === 0) {
@@ -190,7 +184,6 @@ function showHomeSection () {
 * - Add event listeners to check form inputs
 */
 function showAddPeakSection () {
-  console.log('show: add peak section')
   hideContent()
   $('#map-nav-btn, #list-nav-btn, #home-nav-btn').removeClass('selected')
   $('#add-peak-nav-btn').addClass('selected')
@@ -211,7 +204,6 @@ function showAddPeakSection () {
 * - Show peak list page section - ID: #peak-list-section
 */
 function showPeakListSection () {
-  console.log('show: peak list section')
   hideContent()
   $('#map-nav-btn, #add-peak-nav-btn, #home-nav-btn').removeClass('selected')
   $('#list-nav-btn').addClass('selected')
@@ -226,7 +218,6 @@ function showPeakListSection () {
 * - Render map - renderMap()
 */
 function showPeakMapSection () {
-  console.log('show: peak map section')
   hideContent()
   $('#add-peak-nav-btn, #list-nav-btn, #home-nav-btn').removeClass('selected')
   $('#map-nav-btn').addClass('selected')
@@ -247,7 +238,6 @@ function populateDatalist () {
   peakList.forEach(peak => {
     $('#peak-select').append(`<option value='${peak}'/>`)
   })
-  console.log('datalist populated')
 }
 
 /**
@@ -257,7 +247,6 @@ function populateDatalist () {
 function enableDatalistAutocomplete () {
   let nativedatalist = !!('list' in document.createElement('input')) &&
   !!(document.createElement('datalist') && window.HTMLDataListElement)
-  console.log('datalist suppored:', nativedatalist)
 
   if (!nativedatalist) {
     $('input[list]').each(function () {
@@ -266,7 +255,6 @@ function enableDatalistAutocomplete () {
       }).get()
       $('#peak-climbed').autocomplete({ source: availableTags })
     })
-    console.log('datalist autocomplete enabled')
   }
 }
 
@@ -277,7 +265,6 @@ function enableDatalistAutocomplete () {
 function enableDatePicker () {
   if (!$('input[type="date"]')) {
     $('#date-climbed').datepicker()
-    console.log('type=date not available, date picker enabled')
   }
 }
 
@@ -297,7 +284,6 @@ function handleSubmitForm () {
     let validDate = validateDate()
 
     if (validPeak && validDate) {
-      console.log('form submitted, adding data to userPeakLog')
       let peakName = $('#peak-climbed').val()
       let date = $('#date-climbed').val()
       let notes = $('#user-notes').val()
@@ -398,7 +384,6 @@ function updatePeakPhotoList () {
   $('#peak-photo-list').html('')
 
   if (!localStorage.getItem('userPeakLog') || JSON.parse(localStorage.getItem('userPeakLog')).length === 0) {
-    console.log('no local storage')
     $('#peak-photo-list').append('No peaks logged')
   } else {
     // total peaks in userPeakLog
@@ -478,10 +463,8 @@ function handleRemovePeakBtnClick () {
   $('#peak-list-section').on('click', '.remove-peak', function () {
     let peakName = $(this).data('peak')
     let dateClimbed = $(this).data('date')
-    console.log('removing:', peakName, dateClimbed)
 
     if (confirm(`Are you sure you want to remove ${peakName}?`)) {
-      console.log(`remove peak x clicked, ${peakName} removed.`)
       removePeak(peakName, dateClimbed)
       updatePeakPhotoList()
     }
@@ -516,7 +499,6 @@ function getPeakData (peakName) {
   let allPeakData = peakData.filter(peak => peak.attributes.peak_name === peakName)
   let modifiedPeakData = Object.assign({}, allPeakData[0].attributes)
 
-  console.log('got peak data to add to userPeakLog:', modifiedPeakData)
   return modifiedPeakData
 }
 
@@ -541,7 +523,6 @@ function removePeak (peakName, dateClimbed) {
 * - Sort userPeakLog by date completed
 */
 function sortByDateClimbed () {
-  console.log('sorted by date climbed')
   userPeakLog.sort((a, b) => {
     let dateA = moment(a.dateClimbed).unix()
     let dateB = moment(b.dateClimbed).unix()
@@ -555,7 +536,6 @@ function sortByDateClimbed () {
 * - Sort userPeakLog by rank
 */
 function sortByRank () {
-  console.log('sorted by rank')
   userPeakLog.sort((a, b) => a.rank - b.rank)
 }
 
@@ -564,7 +544,6 @@ function sortByRank () {
 * - Sort userPeakLog by peak name
 */
 function sortByPeakName () {
-  console.log('sorted by peak name')
   userPeakLog.sort(function (a, b) {
     if (a.peak_name < b.peak_name) {
       return -1
@@ -577,13 +556,6 @@ function sortByPeakName () {
 }
 
 /**
-* Initiate google map
-*/
-function initMap () {
-  console.log('map initiated')
-}
-
-/**
 * Render map
 * - Show map of colorado
 * - Add pins that are in userPeakLog
@@ -592,7 +564,6 @@ function initMap () {
 
 function renderMap () {
   let map
-  console.log('map rendered with pins in userPeakLog')
 
   // set map base to show all of colorado
   let colorado = {lat: 39.0051, lng: -105.5197}
@@ -632,8 +603,6 @@ function renderMap () {
       peakMarkers[index].dateClimbed.push(peak.dateClimbed)
     }
   })
-
-  console.log('peak markers:', peakMarkers)
 
   // add marker for each peak in the peak maker array
   peakMarkers.forEach(peak => {

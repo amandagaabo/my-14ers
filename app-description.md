@@ -28,7 +28,7 @@ My 14ers is an app that will allow users to log which 14ers in Colorado they hav
  
 ## Pages
 * Home
-  * If no peaks have been logged, a welcom message is shown and the user is prompted to add a completed peak
+  * If no peaks have been logged, a welcome message is shown and the user is prompted to add a completed peak
   * If peaks have been logged, a summary of completion will be show
   * Local storage will be used to save user added peaks
 
@@ -73,7 +73,7 @@ General
 * Update progress section - calculate percent complete and update circle chart and text
 * Populate peak photo list - for each peak in the user peak log, show photo and text
 * Populate datalist - use 14er API data to get peak names and add them to datalist as options
-* Enable date picker - for browsers that dont support input type="date", use jQuery datepicker()
+* Enable date picker - for browsers that don't support input type="date", use jQuery datepicker()
 * Validate peak - check user peak input, show error message if invalid
 * Validate date - check user date input, show error message if invalid
 Show sections
