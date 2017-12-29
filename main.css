@@ -1,7 +1,7 @@
 body {
   font-family: 'Muli', sans-serif;
   text-align: center;
-  background-image: url('./photos/background_dkgrey2.png');
+  background-image: url('https://res.cloudinary.com/amhprojects/image/upload/v1514516746/14ers/background_dkgrey2.png');
 }
 
 .content {
@@ -36,7 +36,7 @@ button:hover, #logo:hover, #sort-by:hover, .nav-btn:hover {
 
 #page-header .row, #page-footer{
   padding: 5px 0 0 0;
-  background-image: url('./photos/background_dkgrey2.png');
+  background-image: url('https://res.cloudinary.com/amhprojects/image/upload/v1514516746/14ers/background_dkgrey2.png');
 }
 
 #page-footer {
