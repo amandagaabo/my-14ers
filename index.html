@@ -25,7 +25,7 @@
         <div class="col-6">
           <nav role="navigation" id="main-navigation">
             <ul>
-              <li class="nav-btn" id="home-nav-btn">Home</li>
+              <li class="nav-btn" id="dashboard-nav-btn">Dashboard</li>
               <li class="nav-btn" id="add-peak-nav-btn">Add Peak</li>
               <li class="nav-btn" id="list-nav-btn">Peak List</li>
               <li class="nav-btn" id="map-nav-btn">Peak Map</li>
@@ -39,20 +39,24 @@
       <section role="region" class="row content hidden" id="home-section">
         <div class="col-12">
           <div class="home-box">
-            <div id="new-user-section">
-              <h1 class="page-heading">Welcome!</h1>
-              <img src="https://res.cloudinary.com/amhprojects/image/upload/v1514516746/14ers/mt_belford.jpg" alt="14er welcome photo" id="welcome-image">
-              <p class="new-user-message">Looking for a rewarding hike?  Colorado has 58 fourteeners with trails of varying lengths
-                and difficulties. Fourteeners (also known as 14ers) are mountains that have peaks over 14,000 ft in elevation.  These high
-                altitude hikes can be dangerous, so be sure to plan ahead and do your resesarch before tackling one.  A great resource for
-                planning is <a href="https://www.14ers.com/photos/photos_14ers1.php" target="_blank">14ers.com</a>, which has safety tips, route info, photos,
-                weather forcasts and maps.</p>
-              <p class="new-user-message">Ready to start logging the 14ers you have completed?</p>
-              <button type="button" class="standard-btn" id="start-tracking-btn">Start tracking now!</button>
-            </div>
+            <h1 class="page-heading">Welcome!</h1>
+            <img src="https://res.cloudinary.com/amhprojects/image/upload/v1514516746/14ers/mt_belford.jpg" alt="14er welcome photo" id="welcome-image">
+            <p class="new-user-message">Looking for a rewarding hike?  Colorado has 58 fourteeners with trails of varying lengths
+              and difficulties. Fourteeners (also known as 14ers) are mountains that have peaks over 14,000 ft in elevation.  These high
+              altitude hikes can be dangerous, so be sure to plan ahead and do your resesarch before tackling one.  A great resource for
+              planning is <a href="https://www.14ers.com/photos/photos_14ers1.php" target="_blank">14ers.com</a>, which has safety tips, route info, photos,
+              weather forcasts and maps.</p>
+            <p class="new-user-message">Ready to start logging the 14ers you have completed?</p>
+            <button type="button" class="standard-btn" id="start-tracking-btn">Start tracking now!</button>
+          </div>
+        </div>
+      </section>
 
-            <div id="current-user-section">
+      <section role="region" class="row content hidden" id="dashboard-section">
+        <div class="col-12">
+          <div class="dashboard-box">
               <h1 class="page-heading">Summary of Colorado 14ers Climbed</h1>
+
               <div id="circle-chart">
                 <div id="progress-circle">
                     <span id="percent"></span>
@@ -62,12 +66,12 @@
                     </div>
                 </div>
               </div>
+
               <p id="number-climbed-summary"><span id="number-climbed"></span> out of <span id="number-total"></span> peaks</p>
 
               <h2 class="divider-header"> Plan your next hike</h2>
               <p>A great resource for planning is <a href="https://www.14ers.com/photos/photos_14ers1.php" target="_blank">14ers.com</a>, which
                 has safety tips, route info, photos, weather forcasts and maps.</p>
-            </div>
           </div>
         </div>
       </section>

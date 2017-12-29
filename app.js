@@ -30,7 +30,7 @@ function startApp () {
   handleStartTrackingBtnClick()
   handleLogoClick()
   handleSubmitForm()
-  handleNavHomeBtnClick()
+  handleNavDashboardBtnClick()
   handleNavAddPeakBtnClick()
   handleNavListBtnClick()
   handleNavMapBtnClick()
@@ -48,6 +48,7 @@ function startApp () {
 * - Add class = hidden
 */
 function hideContent () {
+  console.log('hiding content')
   $('.content').addClass('hidden')
 }
 
@@ -77,15 +78,15 @@ function handleLogoClick () {
 }
 
 /**
-* Handle navigation home button click.
-* - Nav home button ID: #home-nav-btn
+* Handle navigation dashboard button click.
+* - Nav dashboard button ID: #dashboard-nav-btn
 * - Update progress chart - updateProgressChart()
-* - Show home section - showHomeSection()
+* - Show dashboard section - showDashboardSection()
 */
-function handleNavHomeBtnClick () {
-  $('#home-nav-btn').click(function () {
+function handleNavDashboardBtnClick () {
+  $('#dashboard-nav-btn').click(function () {
     updateProgressChart()
-    showHomeSection()
+    showDashboardSection()
   })
 }
 
@@ -154,25 +155,26 @@ function updateProgressChart () {
 /**
 * Show home section.
 * - Hide all sections - hideContent()
-* - Show new user section of home if no data in userPeakLog - #new-user-section
-* - Show current user section of home if there is data in userPeakLog - #current-user-section
 * - Update nav bar css classes
 * - Remove class = hidden from home page section - ID: #home-section
 */
 function showHomeSection () {
   hideContent()
-
-  if (userPeakLog.length === 0) {
-    $('#new-user-section').removeClass('hidden')
-    $('#current-user-section').addClass('hidden')
-  } else {
-    $('#new-user-section').addClass('hidden')
-    $('#current-user-section').removeClass('hidden')
-  }
-
-  $('#add-peak-nav-btn, #list-nav-btn, #map-nav-btn').removeClass('selected')
-  $('#home-nav-btn').addClass('selected')
+  $('#add-peak-nav-btn, #list-nav-btn, #map-nav-btn, #dashboard-nav-btn').removeClass('selected')
   $('#home-section').removeClass('hidden')
+}
+
+/**
+* Show dashboard section.
+* - Hide all sections - hideContent()
+* - Update nav bar css classes
+* - Remove class = hidden from dashboard page section - ID: #dashboard-section
+*/
+function showDashboardSection () {
+  hideContent()
+  $('#add-peak-nav-btn, #list-nav-btn, #map-nav-btn').removeClass('selected')
+  $('#dashboard-nav-btn').addClass('selected')
+  $('#dashboard-section').removeClass('hidden')
 }
 
 /**
@@ -185,7 +187,7 @@ function showHomeSection () {
 */
 function showAddPeakSection () {
   hideContent()
-  $('#map-nav-btn, #list-nav-btn, #home-nav-btn').removeClass('selected')
+  $('#map-nav-btn, #list-nav-btn, #dashboard-nav-btn').removeClass('selected')
   $('#add-peak-nav-btn').addClass('selected')
   $('#add-peak-section').removeClass('hidden')
 
@@ -199,27 +201,27 @@ function showAddPeakSection () {
 
 /**
 * Show peak list section.
-* - Hide all content sections - hideContent()
+* - Hide all content sections - ()
 * - Update nav button css classes
 * - Show peak list page section - ID: #peak-list-section
 */
 function showPeakListSection () {
   hideContent()
-  $('#map-nav-btn, #add-peak-nav-btn, #home-nav-btn').removeClass('selected')
+  $('#map-nav-btn, #add-peak-nav-btn, #dashboard-nav-btn').removeClass('selected')
   $('#list-nav-btn').addClass('selected')
   $('#peak-list-section').removeClass('hidden')
 }
 
 /**
 * Show peak map section.
-* - Hide all content sections - hideContent()
+* - Hide all content sections - ()
 * - Update nav button css classes
 * - Show peak map section - ID: #peak-map-section
 * - Render map - renderMap()
 */
 function showPeakMapSection () {
   hideContent()
-  $('#add-peak-nav-btn, #list-nav-btn, #home-nav-btn').removeClass('selected')
+  $('#add-peak-nav-btn, #list-nav-btn, #dashboard-nav-btn').removeClass('selected')
   $('#map-nav-btn').addClass('selected')
   $('#peak-map-section').removeClass('hidden')
   renderMap()
