@@ -116,7 +116,7 @@
   -o-transition-timing-function: ease-in;
   transition-timing-function: ease-in;
 }
-.c100 .slice {
+.c100.p0 .slice {
   position: absolute;
   width: 1em;
   height: 1em;

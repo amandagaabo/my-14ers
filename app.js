@@ -48,7 +48,6 @@ function startApp () {
 * - Add class = hidden
 */
 function hideContent () {
-  console.log('hiding content')
   $('.content').addClass('hidden')
 }
 
