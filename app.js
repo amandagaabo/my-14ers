@@ -137,15 +137,16 @@ function handleNavMapBtnClick () {
 * - Update text span total peaks - #number-total
 */
 function updateProgressChart () {
-  let totalPeaks = peakData.length
+  const totalPeaks = peakData.length
   let peaksClimbed = []
   userPeakLog.forEach(peak => peaksClimbed.push(peak.peak_name))
-  let uniquePeaksClimbed = _.uniq(peaksClimbed)
-  let numberClimbed = uniquePeaksClimbed.length
-  let percent = Math.ceil((numberClimbed / totalPeaks) * 100)
+  const uniquePeaksClimbed = _.uniq(peaksClimbed)
+  const numberClimbed = uniquePeaksClimbed.length
+  const percent = Math.ceil((numberClimbed / totalPeaks) * 100)
+  const progressCircle = document.getElementById('progress-circle')
 
-  $('#progress-circle').removeClass()
-  $('#progress-circle').addClass(`c100 big black p${percent}`)
+  $(progressCircle).removeAttr('class')
+  $(progressCircle).addClass(`c100 big black p${percent}`)
   $('#percent').html(`${percent}%`)
   $('#number-climbed').html(`${numberClimbed}`)
   $('#number-total').html(`${totalPeaks}`)
@@ -350,8 +351,8 @@ function validateDate () {
   let dateClimbed = $('#date-climbed').val()
   let validDate = true
   let message = null
-  let today = moment(new Date()).format('YYYY-MM-D')
-  let minusHundredYears = moment(today).subtract(100, 'years').format('YYYY-MM-D')// check that input exists and is today or earlier
+  let today = moment(new Date()).toISOString()
+  let minusHundredYears = moment(today).subtract(100, 'years')// check that input exists and is today or earlier
 
   if (!dateClimbed) {
     validDate = false
