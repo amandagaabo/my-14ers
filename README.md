@@ -3,6 +3,9 @@
 ## Description
 My 14ers is an app that will allow users to keep track of which 14ers in Colorado they have summited.  The user can add 14ers to their peak log by selecting the peak name and date completed.  The user can view a sortable photo list of their completed 14ers or switch to a map view with all of their completed 14ers pinned.  Each pin can be clicked and will reveal details about that 14er.
 
+## User
+This app is intended for users who hike the 14ers in Colorado and wish to keep track of which ones they have completed.
+
 ## Layout
 The app has four main pages:
 1. Home - Shows a summary of how many peaks the user has climbed out of the total number of Colorado 14ers.
